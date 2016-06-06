@@ -1,0 +1,26 @@
+runtime: go
+api_version: go1
+
+handlers:
+- url: /api/.*
+  script: _go_app
+ 
+- url: /
+  static_files: static/index.html  
+  upload: static/index.html
+
+- url: /index.html  
+  static_files: static/index.html  
+  upload: static/index.html
+
+- url: /bundle.js
+  static_files: static/bundle.js
+  upload: static/bundle.js
+
+- url: /bundle.js.map
+  static_files: static/bundle.js.map
+  upload: static/bundle.js.map
+
+- url: /images
+  static_dir: static/images
+  

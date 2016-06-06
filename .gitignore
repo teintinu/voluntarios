@@ -1,0 +1,8 @@
+server/static/bundle*
+appengine-generated/
+node_modules
+*.map
+*.tmp
+cordova/platforms
+cordova/plugins
+cordova/www

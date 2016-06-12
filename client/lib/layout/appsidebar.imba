@@ -1,5 +1,5 @@
 
-import h5 from '../h5'
+import himba from '../himba'
 
 tag appsidebar < div  
   def render 
@@ -19,7 +19,7 @@ tag appsidebar < div
               <i.material-icons> 'add'
                 'teste ...'
 
-      <nav.demo-navigation.mdl-navigation.mdl-color--blue-grey-800> for item in h5['menuItems']        
+      <nav.demo-navigation.mdl-navigation.mdl-color--blue-grey-800> for item in himba['menuItems']        
         <a.mdl-navigation__link href="" :tap=item['ontap']>
           <i.mdl-color-text--blue-grey-400.material-icons role="presentation"> item['icon']
           item['title']

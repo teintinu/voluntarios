@@ -1,5 +1,5 @@
 
-import h5 from '../h5'
+import himba from '../himba'
 
 tag appheader < header
   attr title
@@ -7,7 +7,7 @@ tag appheader < header
   def render 
     <self.demo-header.mdl-layout__header.mdl-color--grey-100.mdl-color-text--grey-600>
       <div.mdl-layout__header-row>
-          <span.mdl-layout-title> h5['content']['title']
+          <span.mdl-layout-title> himba.title
           <div.mdl-layout-spacer>
           <div.mdl-textfield.mdl-js-textfield.mdl-textfield--expandable>
             <label.mdl-button.mdl-js-button.mdl-button--icon for="search">
@@ -17,6 +17,6 @@ tag appheader < header
               <label.mdl-textfield__label for="search">
           <button.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon id="hdrbtn">
             <i.material-icons> 'more_vert'
-          <ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="hdrbtn"> for item in h5['content']['actions']
+          <ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="hdrbtn"> for item in himba.actions
 #            if item['visible']
             <li.mdl-menu__item :tap=item['ontap']> item['title'] 

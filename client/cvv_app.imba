@@ -2,12 +2,12 @@
 
 import H5App from './lib/H5App' 
 
-import homeContent from './home/homeContent'
-require './voluntarios/voluntariosContent'
+require './home/homeActivity'
+# require './voluntarios/voluntariosContent'
 
 export class CVV_app < H5App
   def home
-    homeContent
+    'home'
 
   def onSearch text
     console.log text

@@ -3,10 +3,10 @@
 require '../third/imba.js'
 require '../css/index.css'
 
-import h5 from './lib/h5'
+import himba from './lib/himba'
 import CVV_app from './cvv_app' 
 
-h5.boot CVV_app.new
+himba.boot CVV_app.new
 
 
 # tag test 

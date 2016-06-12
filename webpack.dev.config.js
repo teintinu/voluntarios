@@ -8,17 +8,29 @@ var HtmlPlugin = require('html-webpack-plugin');
 var precss       = require('precss');
 var autoprefixer = require('autoprefixer');
 
+var clientPath = path.join(__dirname, 'client');
+var deployPath = path.join(__dirname, 'server/static');
+
 module.exports = {
-	entry: "./client/index.imba",
+	entry: clientPath + "/index.imba",
 	output: { 
-      path: __dirname + '/server/static',
+      path: deployPath,
       filename: "bundle.js" 
     },
 	module: {
 	  loaders: [
-	    { test: /\.imba$/, "loader": 'imba-loader'},
-	    { test: /\.css$/, "loader": 'style-loader!css-loader!postcss-loader'},
-      { test: /\.js$/, exclude: /(node_modules)|(third)/, loader: "babel-loader", query: { presets:['es2015'] } }
+        //{ test: /\.html$/, loader: 'html' },
+        { test: /\.imba$/, loader: 'imba-loader'},
+	    { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'},
+        { test: /\.js$/, 
+        	exclude: /(node_modules)|(third)/, 
+        	loader: "babel-loader", 
+        	query: { presets:['es2015'] } 
+        },
+        {
+            test: [/MaterialIcons-Regular.eot/, /MaterialIcons-Regular.woff2/, /MaterialIcons-Regular.woff/, /MaterialIcons-Regular.ttf/],
+            loader: 'file?name=fonts/[name].[ext]'
+        }        
 	  ],
 	},
 	resolve: {extensions: ['', '.imba', '.js', '.css']},
@@ -26,13 +38,13 @@ module.exports = {
 	plugins: [
 	    new webpack.HotModuleReplacementPlugin(),
 		new webpack.DefinePlugin({"Imba.SERVER": false,"Imba.CLIENT": true}),
+		// new HtmlPlugin({
+		//     template: path.resolve(clientPath, 'feio.html'),
+		//     filename: 'feio.html',
+		//     inject: 'body'
+		// }),
 		new HtmlPlugin({
-		    template: path.resolve(__dirname + '/server/static', 'feio.html'),
-		    filename: 'feio.html',
-		    inject: 'body'
-		}),
-		new HtmlPlugin({
-		    template: path.resolve(__dirname + '/server/static', 'index.html'),
+		    template: path.resolve(clientPath, 'index.html'),
 		    filename: 'index.html',
 		    inject: 'body'
 		})
@@ -51,8 +63,8 @@ module.exports = {
     cache: true,
     debug: true,
     devServer: {
-      contentBase: __dirname + '/server/static',
-      port: 8040,
+      contentBase: deployPath,
+      port: 7000,
       hot: true,
       inline: true
     }

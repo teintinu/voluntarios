@@ -19,6 +19,7 @@ class Himba
     (_activity ? _activity['title'] + ' - ' : '') + _app['title']
 
   def menuItems
+    debugger
     himbaActivity.menuItems
 
   def actions

@@ -6,6 +6,7 @@ require './home/homeActivity'
 # require './voluntarios/voluntariosContent'
 
 export class CVV_app < H5App
+  @title = 'Voluntários'
   def home
     'home'
 

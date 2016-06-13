@@ -12,6 +12,3 @@
           <span.mdl-list__item-secondary-content>
             <a.mdl-list__item-secondary-action href="#">
               <i.material-icons> 'star'
-
-  def mudar
-    state['msg'] = 'mudou'

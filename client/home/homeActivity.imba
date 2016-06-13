@@ -13,7 +13,7 @@ var homeModel = defineModel({
 })
 
 export var homeActivity = defineActivity {
-  name: 'home',
+  name: 'home'
   title: 'Home'
   icon: 'home'
   state: homeModel

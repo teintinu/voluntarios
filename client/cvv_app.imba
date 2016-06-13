@@ -3,7 +3,7 @@
 import H5App from './lib/H5App' 
 
 require './home/homeActivity'
-# require './voluntarios/voluntariosContent'
+require './voluntarios/voluntariosActivity'
 
 export class CVV_app < H5App
   

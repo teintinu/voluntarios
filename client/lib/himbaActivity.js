@@ -95,6 +95,6 @@ export function getActivity (activityName) {
   return _activities.binarySearch(activityName);
 }
 
-export function menuItems() {
+export function activities () {
   return _activities;
 }

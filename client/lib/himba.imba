@@ -19,14 +19,26 @@ class Himba
     _app.title _activity
 
   def menuItems
-    himbaActivity.menuItems
-
+    himbaActivity.activities.map do |a| 
+      {
+        name: a['name'],      
+        title: a['title'],
+        icon: a['icon'],
+        state: a['state'],
+        ontap: do
+          activate a['name']
+      }
+    
   def actions
     _activity ? _activity['actions'] : []
 
   def mainView
-    debugger
-    _activity ? _activity.view : []
+    try 
+      _activity ? _activity.view : []
+    catch e
+      <pre>
+        e['stack'] ? e['stack'].toString: e
+
   
   def activity
     return _activity

@@ -6,4 +6,5 @@ tag homeView
       <button :tap='mudar'> 'mudar'
 
   def mudar
+    debugger
     state['msg'] = 'mudou'

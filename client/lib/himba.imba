@@ -16,8 +16,7 @@ class Himba
     _app
 
   def title
-    debugger
-    (_activity ? _activity['title'] + ' - ' : '') + _app.title
+    _app.title _activity
 
   def menuItems
     himbaActivity.menuItems
@@ -26,7 +25,8 @@ class Himba
     _activity ? _activity['actions'] : []
 
   def mainView
-    _activity ? _activity['view'] : []
+    debugger
+    _activity ? _activity.view : []
   
   def activity
     return _activity
@@ -55,8 +55,8 @@ class Himba
     _invalidate_tm = setTimeout( &, 1 ) do
       if _layout 
         _layout.render
-      # if _activity 
-      #   _activity.view.render
+      if _activity 
+        _activity.view.render
 
 
 export defineModel

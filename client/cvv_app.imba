@@ -6,7 +6,10 @@ require './home/homeActivity'
 # require './voluntarios/voluntariosContent'
 
 export class CVV_app < H5App
-  @title = 'Voluntários'
+  
+  def title activity 
+    (activity ? activity['title'] + ' - ' : '') + 'Voluntários'
+
   def home
     'home'
 

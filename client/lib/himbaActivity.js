@@ -13,7 +13,7 @@ _activities.compare_fn = function (a, b) {
   return 0;
 }
 
-import {registerRoute} from './himbaRouter.imba'
+import {getRoute, registerRoute} from './himbaRouter.imba'
 
 export function defineActivity (opts) {
   var _name = opts.name
@@ -49,14 +49,14 @@ export function defineActivity (opts) {
     },
     view() {
       if (!_view)         
-        h5.route(firstRoute);      
+        _activity.route(_route);      
       return _view;
     },
     route(url) {
-      var r = _routes[url];    
+      var r = getRoute(url);    
       _view = r.render.call({
         state() {
-          return r.content.state
+          return r.activity.state
         }
       });
     },    

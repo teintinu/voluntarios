@@ -7,4 +7,9 @@ export def registerRoute url, activity, &render_fn
     activity: activity,
     render: render_fn
   }
- 
+  
+
+export def getRoute url
+  if !_routes[url] 
+    throw 'Rota inexistente: ' + url
+  return _routes[url]

@@ -39,7 +39,7 @@ Array.prototype.binarySearchIdx = function binarySearch(el, compare_fn) {
 
 Array.prototype.binaryInsert = function binaryInsert(el, compare_fn) {
   var i = -this.binarySearchIdx(el, compare_fn);
-  if (i > 0)  
+  if (i > 0)
   	this.splice(i, 0, el);
   return;
 }
@@ -47,7 +47,7 @@ Array.prototype.binaryInsert = function binaryInsert(el, compare_fn) {
 Array.prototype.binaryRemove = function binaryRemove(el, compare_fn) {
   var i = this.binarySearchIdx(el, compare_fn);
   if (i >= 0)
-  	this.splice(i, 1);  
+  	this.splice(i, 1);
   return i;
 }
 
@@ -79,4 +79,15 @@ Array.prototype.stringComparing = function() {
   	if (a > b) return 1;
   	return 0;
   }
+}
+
+Array.prototype.filterWithRelevance = function (fn) {
+  var r = this.reduce( function (r, item) {
+    var relevance = fn(item);
+    if (relevance >= 0)
+      r.push({item, relevance})
+    return r;
+  }, []);
+  r.sort((a, b) => b.relevance - a.relevance);
+  return r.map ( (i) => i.item);
 }

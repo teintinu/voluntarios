@@ -1,25 +1,44 @@
 
 
-import H5App from './lib/H5App' 
+import H5App from './lib/H5App'
 
 require './home/homeActivity'
 require './voluntarios/voluntariosActivity'
 
 export class CVV_app < H5App
-  
-  def title activity 
+
+  def title activity
     (activity ? activity['title'] + ' - ' : '') + 'Voluntários'
 
   def home
     'home'
 
   def onSearch text
-    console.log text
-    
+    if text == 'v'
+      [
+        {
+          icon: 'person'
+          title: 'Cadastrar voluntário'
+          relevance: 0
+          tap: do
+            himba.route '/voluntarios'
+        }
+      ]
+    if text == 'h'
+      [
+        {
+          icon: 'home'
+          title: 'home'
+          relevance: 0
+          tap: do
+            himba.route('/')
+        }
+      ]
+    []
 
-# content = 
+# content =
 # content = <div> 'aqui vai aparecer o conteúdo (ligar com rotas)'
-# sidebarMenuItems = 
+# sidebarMenuItems =
 #   [
 #     new mapa
 #     # {
@@ -69,22 +88,22 @@ export class CVV_app < H5App
 #     # }
 #   ]
 
-# actionMenuItems = 
+# actionMenuItems =
 #   [
 #     {
 #       title: 'Adicionar',
-#       ontap: do 
+#       ontap: do
 #         title = 'x'
 #         render
 #     },
 #     {
 #       title: 'Editar',
-#       ontap: do 
+#       ontap: do
 #         console.log 'ed'
 #     },
 #     {
 #       title: 'Remover',
-#       ontap: do 
+#       ontap: do
 #         console.log 'rem'
 #     }
 #   ]

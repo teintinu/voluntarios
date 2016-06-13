@@ -28,7 +28,7 @@ export function defineActivity (opts) {
       return _name
     },
     get title(){
-      return _title 
+      return _title
     },
     set title(value) {
       _title = value
@@ -47,19 +47,20 @@ export function defineActivity (opts) {
     get visible(){
       return _visible
     },
+    onSearch: opts.onSearch,
     view() {
-      if (!_view)         
-        _activity.route(_route);      
+      if (!_view)
+        _activity.route(_route);
       return _view;
     },
     route(url) {
-      var r = getRoute(url);    
+      var r = getRoute(url);
       _view = r.render.call({
         state() {
           return r.activity.state
         }
       });
-    },    
+    },
     get actions() {
       return [
        {

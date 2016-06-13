@@ -13,16 +13,23 @@ export function defineModel (schema) {
   var props = {}
   Object.keys(schema).forEach( (propname) => {
      var _def=schema[propname]
-     var _val=_def.value
-     props[propname] = {
-       get() {
-         //console.log('get ',propname,'=',_val)
-         return _val;
-       },
-       set(value) {
-         _val = value;
-         //console.log('set ',propname,'=',_val)
-         changed();
+     if (typeof _def === 'function')
+       props[propname] = {
+         value: _def
+       }
+     else {
+       if (!_def.type) throw new Error('schema error in ' + propname);
+       var _val= _def.value
+       props[propname] = {
+         get() {
+           //console.log('get ',propname,'=',_val)
+           return _val;
+         },
+         set(value) {
+           _val = value;
+           //console.log('set ',propname,'=',_val)
+           changed();
+         }
        }
      }
   });

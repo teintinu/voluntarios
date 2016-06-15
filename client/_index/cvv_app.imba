@@ -10,9 +10,6 @@ export class CVV_app < H5App
   def title activity
     (activity ? activity['title'] + ' - ' : '') + 'Voluntários'
 
-  def home
-    'home'
-
   def onSearch text
     if text == 'v'
       [

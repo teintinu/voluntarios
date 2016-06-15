@@ -4,6 +4,7 @@ tag homeView
     <self>
       <div> 'viewHome'  + state['msg']
       <button :tap='mudar'> 'mudar'
+      <p> Date.new.getTime
 
   def mudar
     debugger

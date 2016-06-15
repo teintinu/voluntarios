@@ -1,17 +1,24 @@
 
+extern location
+
 require('./array_extensions.js')
 require('./string_extensions.js')
 
 import defineModel from './himbaModel'
+import getRoute from './himbaRouter.js'
 var himbaActivity = require('./himbaActivity')
 
 var _app, _layout, _activity, _lastsearch, _invalidate_tm
 
 class Himba
   def boot app
-    activate app.home
+    activateUrl null
     _app = app
     _layout = app.createApplicationLayout()
+
+    window:onpopstate = do |e|
+      debugger
+      activateUrl window.href.basepath
 
   def app
     _app
@@ -45,9 +52,26 @@ class Himba
   def activity
     return _activity
 
-  def route url
-    var r = _routes[url]
-    r._activity.route url
+  def navigate url, replace = yes
+    debugger
+    if replace
+      history.replaceState(state,null,href)
+      refresh
+    else
+      history.pushState(state,null,href)
+
+  def activateUrl url
+    debugger
+    var r = getRoute url
+
+    if _activity
+      deactivate()
+
+    _activity = r['activity']
+    _activity.dispatch r
+    _activity['state'].on do invalidate
+    invalidate
+
 
   def activate activityName
     if _activity
@@ -87,3 +111,4 @@ export def defineActivity opts
 
 export var himba = Himba.new
 
+setInterval(&, 20) do himba.invalidate

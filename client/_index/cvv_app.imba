@@ -1,9 +1,9 @@
 
 
-import H5App from './lib/H5App'
+import H5App from '../lib/H5App'
 
-require './home/homeActivity'
-require './voluntarios/voluntariosActivity'
+require '../home/homeActivity'
+require '../voluntarios/voluntariosActivity'
 
 export class CVV_app < H5App
 

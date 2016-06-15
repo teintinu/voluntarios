@@ -12,25 +12,22 @@ var clientPath = path.join(__dirname, 'client');
 var deployPath = path.join(__dirname, 'server/static');
 
 var config = {
-	entry: clientPath + "/index.imba",
+	entry: clientPath + "/_index/index.imba",
 	output: {
       path: deployPath,
       filename: "bundle.js"
     },
 	module: {
 	  loaders: [
-        //{ test: /\.html$/, loader: 'html' },
-        { test: /\.imba$/, loader: 'imba-loader'},
+      //{ test: /\.html$/, loader: 'html' },
+      { test: /\.(jpe?g|png|gif|svg|eot|woff|ttf|svg|woff2)$/, loader: "file?name=[name].[ext]" },
 	    { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'},
-        { test: /\.js$/,
-        	exclude: /(node_modules)|(third)/,
-        	loader: "babel-loader",
-        	query: { presets:['es2015'] }
-        },
-        {
-            test: [/MaterialIcons-Regular.eot/, /MaterialIcons-Regular.woff2/, /MaterialIcons-Regular.woff/, /MaterialIcons-Regular.ttf/],
-            loader: 'file?name=fonts/[name].[ext]'
-        }
+      { test: /\.imba$/, loader: 'imba-loader'},
+      { test: /\.js$/,
+      	exclude: /(node_modules)|(third)/,
+       	loader: "babel-loader",
+       	query: { presets:['es2015'] }
+       }
 	  ],
 	},
 	resolve: {extensions: ['', '.imba', '.js', '.css']},
@@ -44,7 +41,7 @@ var config = {
 		//     inject: 'body'
 		// }),
 		new HtmlPlugin({
-		    template: path.resolve(clientPath, 'client.html'),
+		    template: path.resolve(clientPath, '_index/client.html'),
 		    filename: 'index.html',
 		    inject: 'body'
 		})
@@ -59,7 +56,7 @@ var config = {
       reasons: true
     },
 
-
+   devServer: {}
 }
 
 module.exports = {

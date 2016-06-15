@@ -91,3 +91,9 @@ Array.prototype.filterWithRelevance = function (fn) {
   r.sort((a, b) => b.relevance - a.relevance);
   return r.map ( (i) => i.item);
 }
+
+Array.prototype.random = function() {
+  debugger
+  var i = Math.floor(Math.random() * this.length);
+  return this[i];
+}

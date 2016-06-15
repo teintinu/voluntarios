@@ -1,5 +1,7 @@
 var _activities = []
 
+var Tracker = require('../lib/himbaTracker.js')
+
 _activities.compare_fn = function (a, b) {
   if (!a) {
     if (!b) return 0;

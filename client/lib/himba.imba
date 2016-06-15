@@ -7,23 +7,23 @@ require('./string_extensions.js')
 import defineModel from './himbaModel'
 import getRoute from './himbaRouter.js'
 var himbaActivity = require('./himbaActivity')
+var Tracker = require('../lib/himbaTracker.js')
 
 var _app, _layout, _activity, _lastsearch, _invalidate_tm
 
 class Himba
   def boot app
+    @dep_title = dependency
+    @dep_activity = dependency
     activateUrl null
     _app = app
     _layout = app.createApplicationLayout()
-
-    window:onpopstate = do |e|
-      debugger
-      activateUrl window.href.basepath
 
   def app
     _app
 
   def title
+    @dep_title.depend()
     _app.title _activity
 
   def menuItems
@@ -53,7 +53,6 @@ class Himba
     return _activity
 
   def navigate url, replace = yes
-    debugger
     if replace
       history.replaceState(state,null,href)
       refresh
@@ -61,7 +60,6 @@ class Himba
       history.pushState(state,null,href)
 
   def activateUrl url
-    debugger
     var r = getRoute url
 
     if _activity
@@ -69,9 +67,6 @@ class Himba
 
     _activity = r['activity']
     _activity.dispatch r
-    _activity['state'].on do invalidate
-    invalidate
-
 
   def activate activityName
     if _activity
@@ -87,28 +82,22 @@ class Himba
     _activity['state'].off do invalidate
 
   def open_search text
-    debugger
     if _lastsearch != text
       _lastsearch = text
       var found = _app.onSearch text
       if _activity && _activity['onSearch']
         found = found.concat(_activity['onSearch'].call(_activity, text))
 
-  def invalidate
-    if _invalidate_tm
-      clearTimeout _invalidate_tm
-    _invalidate_tm = setTimeout( &, 1 ) do
-      if _layout
-        _layout.render
-      if _activity
-        _activity.view.render
+  def dependency
+    Tracker['Dependency'].new
 
+  def autorun cb
+    Tracker.autorun cb
 
 export defineModel
 
 export def defineActivity opts
   himbaActivity.defineActivity opts
 
-export var himba = Himba.new
+export var himba = window['himba'] = Himba.new
 
-setInterval(&, 20) do himba.invalidate

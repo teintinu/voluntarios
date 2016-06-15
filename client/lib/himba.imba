@@ -26,6 +26,7 @@ class Himba
         title: a['title'],
         icon: a['icon'],
         state: a['state'],
+        href: a['href']
         ontap: do
           activate a['name']
       }

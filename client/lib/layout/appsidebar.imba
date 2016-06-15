@@ -1,8 +1,8 @@
 
 import himba from '../himba'
 
-tag appsidebar < div  
-  def render 
+tag appsidebar < div
+  def render
     <self.demo-drawer.mdl-layout__drawer.mdl-color--blue-grey-900.mdl-color-text--blue-grey-50>
       <header.demo-drawer-header>
         <img.demo-avatar src="images/cvv.svg">
@@ -20,7 +20,7 @@ tag appsidebar < div
                 'teste ...'
 
       <nav.demo-navigation.mdl-navigation.mdl-color--blue-grey-800> for item in himba.menuItems
-        <a.mdl-navigation__link href="" :tap=item['ontap']>
+        <a.mdl-navigation__link href=item['href'] >
           <i.mdl-color-text--blue-grey-400.material-icons role="presentation"> item['icon']
           item['title']
       <div.mdl-layout-spacer>

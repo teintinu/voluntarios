@@ -37,6 +37,10 @@ export function defineActivity (opts) {
     get icon(){
       return _icon
     },
+    get href() {
+      debugger
+      return _route
+    },
     set icon(value) {
       _icon = value
       invalidate()

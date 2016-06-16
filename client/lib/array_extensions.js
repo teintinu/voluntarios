@@ -93,7 +93,6 @@ Array.prototype.filterWithRelevance = function (fn) {
 }
 
 Array.prototype.random = function() {
-  debugger
   var i = Math.floor(Math.random() * this.length);
   return this[i];
 }

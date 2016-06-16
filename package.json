@@ -1,7 +1,7 @@
 {
-  "name": "cvv",
+  "name": "voluntarios",
   "version": "1.0.0",
-  "description": "",
+  "description": "Administração de postos de voluntários do CVV",
   "main": "webpack.config.js",
   "dependencies": {
     "css-loader": "^0.23.1",

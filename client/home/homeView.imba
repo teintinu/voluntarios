@@ -3,18 +3,19 @@ import himba from '../lib/himba'
 var dep = himba.dependency
 var count=0
 var icons=['star', 'alarm', 'add', 'search', 'home', 'person']
+
 tag homeView
   prop state
 
   def render
     himba.autorun do |c|
       <self>
-        <div> 'viewHome'  + state['msg']
-        <button :tap='mudar'> 'mudar'
+        <div> 'viewHome cont='  + state.cont
+        <button :tap='inc'> 'inc'
         <p> ' ' + count
         <p>
           getTime
-          <ul.demo-list-three.mdl-list> for x in Array.new(Math.floor(Math.random*5))
+          <ul.demo-list-three.mdl-list> for x in Array.new(Math.floor(Math.random*4)+2)
             <li.mdl-list__item.mdl-list__item--three-line>
               <span.mdl-list__item-primary-content>
                 <i.material-icons.mdl-list__item-avatar> icons.random()
@@ -25,9 +26,8 @@ tag homeView
                 <a.mdl-list__item-secondary-action href="#">
                   <i.material-icons> icons.random()
 
-  def mudar
-    debugger
-    state['msg'] = 'mudou'
+  def inc
+    state.inc
 
   def getTime
     dep.depend
@@ -36,7 +36,7 @@ tag homeView
 # tracker1.autorun do
 #   window['himba'] && window['himba'].invalidate
 
-setInterval(&, 131) do
+setInterval(&, 1311) do
   count++
   if (Math.floor(count / 10000) % 2)==0
     dep.changed

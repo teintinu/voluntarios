@@ -1,6 +1,8 @@
 
 extern location
 
+require './third/imba.js'
+
 require('./array_extensions.js')
 require('./string_extensions.js')
 
@@ -8,6 +10,7 @@ import defineModel from './himbaModel'
 import getRoute from './himbaRouter.js'
 var himbaActivity = require('./himbaActivity')
 var Tracker = require('../lib/himbaTracker.js')
+Imba['autorun'] = Tracker['autorun']
 
 var _app, _layout, _activity, _lastsearch, _invalidate_tm
 

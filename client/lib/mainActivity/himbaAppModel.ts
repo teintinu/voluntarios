@@ -225,6 +225,6 @@ export interface ReactiveVar<T> {
   set(value: T): void;
 }
 
-export function reactiveVar<T>(init: T): ReactiveVar {
+export function reactiveVar<T>(init: T): ReactiveVar<T> {
   return window['himba'].reactiveVar(init) as ReactiveVar<T>;
 }

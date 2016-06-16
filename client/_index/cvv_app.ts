@@ -1,24 +1,23 @@
 
 
-import {dependency, declareApplication} from '../lib/mainActivity/himbaAppModel.ts'
+import {reactiveVar, declareApplication} from '../lib/mainActivity/himbaAppModel.ts'
 //import m = require('../lib/mainActivity/himbaAppModel.ts');
 
 // require '../home/homeActivity'
 // require '../voluntarios/voluntariosActivity'
 
-var dep = dependency();
+var h = reactiveVar(new Date());
 
 export var CVV_app = declareApplication({
   title() {
-    dep.depend();
-    return 'Voluntários ' + new Date();
+    return 'Voluntários ' + h.get()
   //   # (activity ? activity['title'] + ' - ' : '') + 'Voluntários'
   }
 });
 
 setInterval(() => {
   debugger
-  dep.changed();
+  h.set(new Date())
 }, 100);
   // def title activity
 

@@ -4,10 +4,9 @@ require './material.cyan-light_blue.min.css'
 require './index.css'
 
 import himba from '../lib/himba'
-import CVV_app from './cvv_app'
+import CVV_app from './cvv_app.ts'
 
-himba.boot CVV_app.new
-
+himba.boot CVV_app
 
 # tag test
 

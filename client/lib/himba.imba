@@ -1,7 +1,12 @@
 
-extern location
+require('./third/imba.js')
 
-require './third/imba.js'
+var Tracker = require('../lib/himbaTracker.js')
+var mdl_sync
+Imba['autorun'] = do |fn|
+  Tracker.autorun do
+    var e = fn()
+    mdl_sync()
 
 require('./array_extensions.js')
 require('./string_extensions.js')
@@ -9,37 +14,31 @@ require('./string_extensions.js')
 import defineModel from './himbaModel'
 import getRoute from './himbaRouter.js'
 var himbaActivity = require('./himbaActivity')
-var Tracker = require('../lib/himbaTracker.js')
-Imba['autorun'] = Tracker['autorun']
 
-var _app, _layout, _activity, _lastsearch, _invalidate_tm
+import application from '../lib/mainActivity/himbaAppModel.ts'
+
+var _layout, _activity, _lastsearch, _invalidate_tm
+
+export def asap cb
+  setTimeout(cb,1)
 
 class Himba
   def boot app
+    if app != application
+      throw 'missing declareApplication'
     @dep_title = dependency
     @dep_activity = dependency
     activateUrl null
-    _app = app
-    _layout = app.createApplicationLayout()
 
-  def app
-    _app
+    asap do
+      var applayout = require('./layout/applayout')['applayout']
+      _layout = <applayout>
 
-  def title
-    @dep_title.depend()
-    _app.title _activity
+      $$(body).append _layout
 
-  def menuItems
-    himbaActivity.activities.map do |a|
-      {
-        name: a['name'],
-        title: a['title'],
-        icon: a['icon'],
-        state: a['state'],
-        href: a['href']
-        ontap: do
-          activate a['name']
-      }
+      mdl_sync
+
+      _layout
 
   def actions
     _activity ? _activity['actions'] : []
@@ -68,8 +67,11 @@ class Himba
     if _activity
       deactivate()
 
-    _activity = r['activity']
-    _activity.dispatch r
+    if r
+      _activity = r['activity']
+      _activity.dispatch r
+    else
+      _activity = null
 
   def activate activityName
     if _activity
@@ -97,10 +99,34 @@ class Himba
   def autorun cb
     Tracker.autorun cb
 
+  def reactiveVar(init)
+    var _val = init
+    var _dep = dependency
+    {
+      get: do
+        _dep.depend()
+        _val
+      set: do |value|
+        _val = value
+        _dep.changed
+    }
+
+
 export defineModel
 
 export def defineActivity opts
   himbaActivity.defineActivity opts
 
 export var himba = window['himba'] = Himba.new
+
+var mdl_sync_tm
+
+mdl_sync = def mdl_sync
+  if mdl_sync_tm
+    clearTimeout mdl_sync_tm
+  mdl_sync_tm = setTimeout(&, 10) do
+    window['componentHandler'].upgradeAllRegistered()
+
+    # asap do
+    #   window['componentHandler'].upgradeElement(e['_dom'])
 

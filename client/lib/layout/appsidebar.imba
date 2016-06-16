@@ -1,5 +1,5 @@
 
-import himba from '../himba'
+import application from '../mainActivity/himbaAppModel.ts'
 
 tag appsidebar < div
   def render
@@ -19,7 +19,7 @@ tag appsidebar < div
               <i.material-icons> 'add'
                 'teste ...'
 
-      <nav.demo-navigation.mdl-navigation.mdl-color--blue-grey-800> for item in himba.menuItems
+      <nav.demo-navigation.mdl-navigation.mdl-color--blue-grey-800> for item in application.menuItems
         <a.mdl-navigation__link href=item['href'] >
           <i.mdl-color-text--blue-grey-400.material-icons role="presentation"> item['icon']
           item['title']

@@ -1070,7 +1070,7 @@
     Imba.Tag.prototype.build = function (){
       var self=this;
       Imba.autorun(function(){
-        self.render();
+        return self.render();
       })
       return this;
     };
@@ -1084,7 +1084,7 @@
     Imba.Tag.prototype.commit = function (){
       var self=this;
       Imba.autorun(function(){
-        self.render();
+        return self.render();
       })
       return this;
     };
@@ -1100,7 +1100,7 @@
     Imba.Tag.prototype.tick = function (){
       var self=this;
       Imba.autorun(function(){
-        self.render();
+        return self.render();
       })
       return this;
     };

@@ -23,6 +23,7 @@ var config = {
       { test: /\.(jpe?g|png|gif|svg|eot|woff|ttf|svg|woff2)$/, loader: "file?name=[name].[ext]" },
 	    { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'},
       { test: /\.imba$/, loader: 'imba-loader'},
+      { test: /\.ts$/, loader: 'ts-loader' },
       { test: /\.js$/,
       	exclude: /(node_modules)|(third)/,
        	loader: "babel-loader",
@@ -30,7 +31,7 @@ var config = {
        }
 	  ],
 	},
-	resolve: {extensions: ['', '.imba', '.js', '.css']},
+	resolve: {extensions: ['', '.imba', '.js', '.ts', '.css']},
 	resolveLoader: { root: path.join(__dirname, "node_modules") },
 	plugins: [
 	    new webpack.HotModuleReplacementPlugin(),
@@ -43,7 +44,7 @@ var config = {
 		new HtmlPlugin({
 		    template: path.resolve(clientPath, '_index/client.html'),
 		    filename: 'index.html',
-		    inject: 'body'
+		    inject: 'html'
 		})
 		// new WriteFilePlugin()
 	],

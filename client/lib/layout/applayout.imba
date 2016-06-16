@@ -1,5 +1,6 @@
 
 require 'material-design-lite'
+
 require './tag_extensions'
 
 require './appheader'
@@ -8,7 +9,10 @@ require './appcontent'
 
 tag applayout < div
   def render
-    <self.demo-layout.mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header>
-      <appheader>
-      <appsidebar>
-      <appcontent>
+    <self.mdl-layout__container>
+      <div.demo-layout.mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header>
+        <appheader>
+        <appsidebar>
+        <appcontent>
+
+

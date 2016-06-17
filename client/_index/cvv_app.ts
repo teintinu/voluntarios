@@ -1,5 +1,5 @@
 
-import {reactiveVar, declareApplication} from '../lib/mainActivity/himbaAppModel.ts'
+import {reactiveVar, declareApplication} from '../lib/himba.ts'
 
 // require('../home/homeActivity')
 // require '../voluntarios/voluntariosActivity'
@@ -14,7 +14,6 @@ export var CVV_app = declareApplication({
 });
 
 setInterval(() => {
-  debugger
   h.set(new Date())
 }, 100);
   // def title activity

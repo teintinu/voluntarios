@@ -1,6 +1,6 @@
 
 require('./third/imba.js')
-import application,autorun,dependency from '../lib/mainActivity/himbaAppModel.ts'
+import application,autorun,dependency from '../lib/himba.ts'
 
 var mdl_sync
 Imba['autorun'] = do |fn|
@@ -20,7 +20,7 @@ var _layout, _activity, _lastsearch, _invalidate_tm
 export def asap cb
   setTimeout(cb,1)
 
-class Himba
+class HimbaBoot
   def boot app
     if app != application
       throw 'missing declareApplication'
@@ -96,7 +96,9 @@ export defineModel
 export def defineActivity opts
   himbaActivity.defineActivity opts
 
-export var himba = window['himba'] = Himba.new
+export def himbaBoot app
+  var b=HimbaBoot.new
+  b.boot app
 
 var mdl_sync_tm
 

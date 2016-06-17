@@ -1,5 +1,5 @@
 
-import application from '../mainActivity/himbaAppModel.ts'
+import application from '../himba.ts'
 
 tag appheader < header
   attr title

@@ -2,7 +2,7 @@
 
 declare function require(s: string): any;
 
-var Tracker = require('../third/himbaTracker.js')
+var Tracker = require('./third/himbaTracker.js')
 
 export interface Application {
   apptitle(): string,

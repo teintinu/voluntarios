@@ -3,10 +3,10 @@
 require './material.cyan-light_blue.min.css'
 require './index.css'
 
-import himba from '../lib/himba'
+import himbaBoot from '../lib/himbaBoot'
 import CVV_app from './cvv_app.ts'
 
-himba.boot CVV_app
+himbaBoot CVV_app
 
 # tag test
 

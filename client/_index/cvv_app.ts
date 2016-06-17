@@ -10,6 +10,32 @@ export var CVV_app = declareApplication({
   title() {
     return 'Voluntários ' + h.get()
   //   # (activity ? activity['title'] + ' - ' : '') + 'Voluntários'
+  },
+  menuItems() {
+    return [
+      {
+        name: 'home',
+        title: 'Home',
+        icon: 'home',
+        // module: null
+        // state: {},
+        // href: '',
+        // ontap() {
+
+        // }
+      },
+      {
+        name: 'vol',
+        title: 'Voluntarios',
+        icon: 'person',
+        // module: null
+        // state: {},
+        // href: '',
+        // ontap() {
+
+        // }
+      }
+    ];
   }
 });
 

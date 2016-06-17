@@ -6,9 +6,11 @@ var Tracker = require('./third/himbaTracker.js')
 
 export interface Application {
   apptitle(): string,
+  navigate(url: string, replace: boolean): void;
   menuItems(): MenuItem[],
+  currentActivity(): Activity,
   actions(): ActionTask[],
-
+  content(): any,
   // curr_activity: CurrentActivity,
   // openned_activity: ActivityInfo[],
   // error: string,
@@ -21,75 +23,26 @@ export interface Application {
 }
 
 var _activities: Activity[] = [];
-var _content: Activity = null;
+var _currentActivity = reactiveVar<Activity>(null);
 
 export var application: Application = {
   apptitle: null,
-  //content() {}
+  menuItems: null,
+  navigate(url) {
 
-  actions() {
-
-    return [
-      {
-        title: 'Adicionar',
-        ontap() {
-          // h5.content.title = 'x'
-          // invalidate()
-        }
-      },
-      {
-        title: 'Editar',
-        ontap() {
-          // h5.content.title = 'y'
-          // invalidate()
-        }
-      },
-      {
-        title: 'Remover',
-        ontap() {
-          // h5.content.title = 'z'
-          // invalidate()
-        }
-      }
-    ];
   },
-  menuItems() {
-    debugger
-    return [
-    {
-      name: 'home',
-      title: 'Home',
-      icon: 'home',
-      // module: null
-      // state: {},
-      // href: '',
-      // ontap() {
-
-      // }
-    },
-    {
-      name: 'vol',
-      title: 'Voluntarios',
-      icon: 'person',
-      // module: null
-      // state: {},
-      // href: '',
-      // ontap() {
-
-      // }
-    }
-    ];
-    // def menuItems
-    // himbaActivity.activities.map do |a|
-    //   {
-    //     name: a['name'],
-    //     title: a['title'],
-    //     icon: a['icon'],
-    //     state: a['state'],
-    //     href: a['href']
-    //     ontap: do
-    //       activate a['name']
-    //   }
+  currentActivity() {
+    return _currentActivity.get()
+  },
+  content() {
+    var c = _currentActivity.get();
+    return c && c.content() || 'NO CONTENT';
+  },
+  actions() {
+    var c = _currentActivity.get();
+    if (c)
+      return c.actions();
+    return [];
   },
 
 
@@ -108,8 +61,10 @@ export var application: Application = {
 
 export function declareApplication(opts: {
   title: () => string,
+  menuItems: () => MenuItem[]
 }): Application {
-  application.apptitle = opts.title;
+  application.apptitle = dependencyWithCache(opts.title);
+  application.menuItems = dependencyWithCache(opts.menuItems);
   return application;
 }
 
@@ -138,7 +93,8 @@ export interface Activity {
   title(): string,
   state(): any,
   actions(): ActionTask[],
-  running?: () => ActionTask
+  running?: () => ActionTask,
+  content(): any,
   // setStep(s: string): string;
   // queryClose(): void;
   // getTask(): string,
@@ -265,7 +221,9 @@ export function dependencyWithCache<T>(fn: () => T): () => T {
     _dep.changed();
   });
   return function() {
-    _dep.depend
+    _dep.depend();
     return _cache;
   }
 }
+
+export const utils = require('./utils.ts')

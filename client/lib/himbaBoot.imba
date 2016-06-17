@@ -1,6 +1,6 @@
 
 require('./third/imba.js')
-import application,autorun,dependency from '../lib/himba.ts'
+import application,autorun,dependency,utils from '../lib/himba.ts'
 
 var mdl_sync
 Imba['autorun'] = do |fn|
@@ -17,26 +17,7 @@ var himbaActivity = require('./himbaActivity')
 
 var _layout, _activity, _lastsearch, _invalidate_tm
 
-export def asap cb
-  setTimeout(cb,1)
-
 class HimbaBoot
-  def boot app
-    if app != application
-      throw 'missing declareApplication'
-    @dep_title = dependency
-    @dep_activity = dependency
-    activateUrl null
-
-    asap do
-      var applayout = require('./layout/applayout')['applayout']
-      _layout = <applayout>
-
-      $$(body).append _layout
-
-      mdl_sync
-
-      _layout
 
   def actions
     _activity ? _activity['actions'] : []
@@ -47,7 +28,6 @@ class HimbaBoot
     catch e
       <pre>
         e['stack'] ? e['stack'].toString: e
-
 
   def activity
     return _activity
@@ -97,8 +77,21 @@ export def defineActivity opts
   himbaActivity.defineActivity opts
 
 export def himbaBoot app
-  var b=HimbaBoot.new
-  b.boot app
+  if app != application
+    throw 'missing declareApplication'
+
+  app.navigate(null)
+
+  utils.asap do
+    var applayout = require('./layout/applayout')['applayout']
+    _layout = <applayout>
+
+    $$(body).append _layout
+
+    mdl_sync
+
+    _layout
+
 
 var mdl_sync_tm
 

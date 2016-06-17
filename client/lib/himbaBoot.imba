@@ -11,75 +11,15 @@ Imba['autorun'] = do |fn|
 require('./array_extensions.js')
 require('./string_extensions.js')
 
-import defineModel from './himbaModel'
-import getRoute from './himbaRouter.js'
-var himbaActivity = require('./himbaActivity')
+import configRouter from './himbaRouter.ts'
 
-var _layout, _activity, _lastsearch, _invalidate_tm
-
-class HimbaBoot
-
-  def actions
-    _activity ? _activity['actions'] : []
-
-  def mainView
-    try
-      _activity ? _activity.view : []
-    catch e
-      <pre>
-        e['stack'] ? e['stack'].toString: e
-
-  def activity
-    return _activity
-
-  def navigate url, replace = yes
-    if replace
-      history.replaceState(state,null,href)
-      refresh
-    else
-      history.pushState(state,null,href)
-
-  def activateUrl url
-    var r = getRoute url
-
-    if _activity
-      deactivate()
-
-    if r
-      _activity = r['activity']
-      _activity.dispatch r
-    else
-      _activity = null
-
-  def activate activityName
-    if _activity
-      deactivate()
-
-    _activity = himbaActivity.getActivity activityName
-
-    _activity['state'].on do invalidate
-    invalidate
-
-
-  def deactivate
-    _activity['state'].off do invalidate
-
-  def open_search text
-    if _lastsearch != text
-      _lastsearch = text
-      var found = _app.onSearch text
-      if _activity && _activity['onSearch']
-        found = found.concat(_activity['onSearch'].call(_activity, text))
-
-export defineModel
-
-export def defineActivity opts
-  himbaActivity.defineActivity opts
+var _layout
 
 export def himbaBoot app
   if app != application
     throw 'missing declareApplication'
 
+  configRouter({mode: 'hash', root: '/'})
   app.navigate(null)
 
   utils.asap do
@@ -93,7 +33,8 @@ export def himbaBoot app
     _layout
 
 
-var mdl_sync_tm
+#
+var mdl_sync_tm = null
 
 mdl_sync = def mdl_sync
   if mdl_sync_tm
@@ -101,6 +42,67 @@ mdl_sync = def mdl_sync
   mdl_sync_tm = setTimeout(&, 10) do
     window['componentHandler'].upgradeAllRegistered()
 
-    # asap do
-    #   window['componentHandler'].upgradeElement(e['_dom'])
+
+# class HimbaBoot
+
+#   def actions
+#     _activity ? _activity['actions'] : []
+
+#   def mainView
+#     try
+#       _activity ? _activity.view : []
+#     catch e
+#       <pre>
+#         e['stack'] ? e['stack'].toString: e
+
+#   def activity
+#     return _activity
+
+#   def navigate url, replace = yes
+#     if replace
+#       history.replaceState(state,null,href)
+#       refresh
+#     else
+#       history.pushState(state,null,href)
+
+#   def activateUrl url
+#     var r = getRoute url
+
+#     if _activity
+#       deactivate()
+
+#     if r
+#       _activity = r['activity']
+#       _activity.dispatch r
+#     else
+#       _activity = null
+
+#   def activate activityName
+#     if _activity
+#       deactivate()
+
+#     _activity = himbaActivity.getActivity activityName
+
+#     _activity['state'].on do invalidate
+#     invalidate
+
+
+#   def deactivate
+#     _activity['state'].off do invalidate
+
+#   def open_search text
+#     if _lastsearch != text
+#       _lastsearch = text
+#       var found = _app.onSearch text
+#       if _activity && _activity['onSearch']
+#         found = found.concat(_activity['onSearch'].call(_activity, text))
+
+# export defineModel
+
+# export def defineActivity opts
+#   himbaActivity.defineActivity opts
+
+
+#     # asap do
+#     #   window['componentHandler'].upgradeElement(e['_dom'])
 

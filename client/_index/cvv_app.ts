@@ -12,28 +12,17 @@ export var CVV_app = declareApplication({
   //   # (activity ? activity['title'] + ' - ' : '') + 'Voluntários'
   },
   menuItems() {
+    debugger
     return [
       {
-        name: 'home',
-        title: 'Home',
-        icon: 'home',
-        // module: null
-        // state: {},
-        // href: '',
-        // ontap() {
-
-        // }
+        title: () => 'Home',
+        icon: () => 'home',
+        href: () => '/'
       },
       {
-        name: 'vol',
-        title: 'Voluntarios',
-        icon: 'person',
-        // module: null
-        // state: {},
-        // href: '',
-        // ontap() {
-
-        // }
+        title: () => 'Voluntarios',
+        icon: () =>'person',
+        href: () => '/voluntarios'
       }
     ];
   }

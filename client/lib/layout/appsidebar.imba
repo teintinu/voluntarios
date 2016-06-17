@@ -20,9 +20,9 @@ tag appsidebar < div
                 'teste ...'
 
       <nav.demo-navigation.mdl-navigation.mdl-color--blue-grey-800> for item in application.menuItems
-        <a.mdl-navigation__link href=item['href'] >
-          <i.mdl-color-text--blue-grey-400.material-icons role="presentation"> item['icon']
-          item['title']
+        <a.mdl-navigation__link href=item.href >
+          <i.mdl-color-text--blue-grey-400.material-icons role="presentation"> item.icon
+          item.title
       <div.mdl-layout-spacer>
       <a.mdl-navigation__link href="">
         <i.mdl-color-text--blue-grey-400.material-icons role="presentation"> 'help_outline'

@@ -1,4 +1,9 @@
 
+
+declare function require(s: string): any;
+
+var Tracker = require('../third/himbaTracker.js')
+
 export interface Application {
   apptitle(): string,
   menuItems(): MenuItem[],
@@ -15,61 +20,65 @@ export interface Application {
   // session: AppSession
 }
 
+var _activities: Activity[] = [];
+var _content: Activity = null;
 
 export var application: Application = {
   apptitle: null,
+  //content() {}
 
   actions() {
-    return [
-      {
-         title: 'Adicionar',
-         ontap() {
-           // h5.content.title = 'x'
-           // invalidate()
-         }
-       },
-       {
-         title: 'Editar',
-         ontap() {
-           // h5.content.title = 'y'
-           // invalidate()
-         }
-       },
-       {
-         title: 'Remover',
-         ontap() {
-           // h5.content.title = 'z'
-           // invalidate()
-         }
-       }
-     ];
-  },
-  menuItems(){
-    debugger
-    return [
-      {
-        name: 'home',
-        title: 'Home',
-        icon: 'home',
-        // module: null
-        // state: {},
-        // href: '',
-        // ontap() {
 
-        // }
+    return [
+      {
+        title: 'Adicionar',
+        ontap() {
+          // h5.content.title = 'x'
+          // invalidate()
+        }
       },
       {
-        name: 'vol',
-        title: 'Voluntarios',
-        icon: 'person',
-        // module: null
-        // state: {},
-        // href: '',
-        // ontap() {
-
-        // }
+        title: 'Editar',
+        ontap() {
+          // h5.content.title = 'y'
+          // invalidate()
+        }
+      },
+      {
+        title: 'Remover',
+        ontap() {
+          // h5.content.title = 'z'
+          // invalidate()
+        }
       }
-    ]
+    ];
+  },
+  menuItems() {
+    debugger
+    return [
+    {
+      name: 'home',
+      title: 'Home',
+      icon: 'home',
+      // module: null
+      // state: {},
+      // href: '',
+      // ontap() {
+
+      // }
+    },
+    {
+      name: 'vol',
+      title: 'Voluntarios',
+      icon: 'person',
+      // module: null
+      // state: {},
+      // href: '',
+      // ontap() {
+
+      // }
+    }
+    ];
     // def menuItems
     // himbaActivity.activities.map do |a|
     //   {
@@ -123,15 +132,23 @@ export interface MenuItem {
   // module: BundleLazy
 }
 
-// export interface Activity {
-//   state(): ActivityState,
-//   actions: () => ActionTask[],
-//   queryClose(): void;
-//   getTask(): string,
-//   setStep(s: string): string;
-//   backStep(): boolean;
-//   releaseRef(): void;
-// }
+export interface Activity {
+  name: string,
+  icon(): string,
+  title(): string,
+  state(): any,
+  actions(): ActionTask[],
+  running?: () => ActionTask
+  // setStep(s: string): string;
+  // queryClose(): void;
+  // getTask(): string,
+  // backStep(): boolean;
+}
+
+export function defineActivity(activity: Activity) {
+  delete activity.running;
+  _activities.push(activity);
+}
 
 // export interface ActivityInfo {
 //   step: BundleLazy,
@@ -206,18 +223,10 @@ export interface TrackerComputation {
   stop(): void;
 }
 
-export function autorun( fn: (computation: TrackerComputation) => void): TrackerComputation {
-  return window['himba'].autorun as TrackerComputation;
-}
-
 export interface TrackerDependency {
   depend(): void;
   depend(computation: TrackerComputation): void;
   changed(): void;
-}
-
-export function dependency(): TrackerDependency {
-  return window['himba'].dependency() as TrackerDependency;
 }
 
 export interface ReactiveVar<T> {
@@ -225,6 +234,38 @@ export interface ReactiveVar<T> {
   set(value: T): void;
 }
 
+export function autorun(fn: (computation: TrackerComputation) => void): TrackerComputation {
+  return Tracker.autorun(fn) as TrackerComputation;
+}
+
+export function dependency(): TrackerDependency {
+  return new Tracker.Dependency as TrackerDependency;
+}
+
 export function reactiveVar<T>(init: T): ReactiveVar<T> {
-  return window['himba'].reactiveVar(init) as ReactiveVar<T>;
+  var _val = init;
+  var _dep = dependency();
+  return {
+    get() {
+      _dep.depend()
+      return _val
+    },
+    set(value) {
+      _val = value;
+      _dep.changed();
+    }
+  };
+}
+
+export function dependencyWithCache<T>(fn: () => T): () => T {
+  var _cache
+  var _dep = dependency();
+  autorun(function() {
+    _cache = fn();
+    _dep.changed();
+  });
+  return function() {
+    _dep.depend
+    return _cache;
+  }
 }

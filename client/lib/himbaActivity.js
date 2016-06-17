@@ -1,6 +1,6 @@
 var _activities = []
 
-var Tracker = require('../lib/himbaTracker.js')
+var Tracker = require('./third/himbaTracker.js')
 
 _activities.compare_fn = function (a, b) {
   if (!a) {

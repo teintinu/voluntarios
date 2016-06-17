@@ -1,10 +1,10 @@
 
 require('./third/imba.js')
+import application,autorun,dependency from '../lib/mainActivity/himbaAppModel.ts'
 
-var Tracker = require('../lib/himbaTracker.js')
 var mdl_sync
 Imba['autorun'] = do |fn|
-  Tracker.autorun do
+  autorun do
     var e = fn()
     mdl_sync()
 
@@ -14,8 +14,6 @@ require('./string_extensions.js')
 import defineModel from './himbaModel'
 import getRoute from './himbaRouter.js'
 var himbaActivity = require('./himbaActivity')
-
-import application from '../lib/mainActivity/himbaAppModel.ts'
 
 var _layout, _activity, _lastsearch, _invalidate_tm
 
@@ -92,25 +90,6 @@ class Himba
       var found = _app.onSearch text
       if _activity && _activity['onSearch']
         found = found.concat(_activity['onSearch'].call(_activity, text))
-
-  def dependency
-    Tracker['Dependency'].new
-
-  def autorun cb
-    Tracker.autorun cb
-
-  def reactiveVar(init)
-    var _val = init
-    var _dep = dependency
-    {
-      get: do
-        _dep.depend()
-        _val
-      set: do |value|
-        _val = value
-        _dep.changed
-    }
-
 
 export defineModel
 

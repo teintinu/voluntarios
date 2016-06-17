@@ -1,9 +1,7 @@
 
-
 import {reactiveVar, declareApplication} from '../lib/mainActivity/himbaAppModel.ts'
-//import m = require('../lib/mainActivity/himbaAppModel.ts');
 
-// require '../home/homeActivity'
+// require('../home/homeActivity')
 // require '../voluntarios/voluntariosActivity'
 
 var h = reactiveVar(new Date());

@@ -4,23 +4,7 @@ declare function require(s: string): any;
 
 var Tracker = require('./third/himbaTracker.js')
 
-export interface Application {
-  apptitle(): string,
-  navigate(url: string, replace: boolean): void;
-  menuItems(): MenuItem[],
-  currentActivity(): Activity,
-  actions(): ActionTask[],
-  content(): any,
-  // curr_activity: CurrentActivity,
-  // openned_activity: ActivityInfo[],
-  // error: string,
-
-  // welcomeStore: BundleLazy,
-  // loginStore: BundleLazy,
-  // errorStore: BundleLazy,
-  // isMobile: boolean,
-  // session: AppSession
-}
+import {Application, Activity, MenuItem, ActionTask} from './himbaSchema'
 
 var _activities: Activity[] = [];
 var _currentActivity = reactiveVar<Activity>(null);
@@ -80,27 +64,6 @@ export function declareApplication(opts: {
 //       callback: ()=>void
 // }
 
-export interface MenuItem {
-  name: string,
-  icon: string,
-  title: string,
-  // module: BundleLazy
-}
-
-export interface Activity {
-  name: string,
-  icon(): string,
-  title(): string,
-  state(): any,
-  actions(): ActionTask[],
-  running?: () => ActionTask,
-  content(): any,
-  // setStep(s: string): string;
-  // queryClose(): void;
-  // getTask(): string,
-  // backStep(): boolean;
-}
-
 export function defineActivity(activity: Activity) {
   delete activity.running;
   _activities.push(activity);
@@ -129,8 +92,7 @@ export function defineActivity(activity: Activity) {
 //   view_ref: Reference
 // }
 
-export interface ActionTask {
-}
+
 
 // export interface AppSession {
 //   language: string,

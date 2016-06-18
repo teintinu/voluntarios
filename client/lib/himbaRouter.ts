@@ -14,7 +14,7 @@ export interface Route {
   action: Action<any>
 }
 
-export function registerRoute<T>(path: string, action: Action<T>) {
+export function registerRoute<PARAMS>(path: string, action: Action<PARAMS>) {
   if (!/^\/[\/:\w]*$/.test(path)) throw 'Rota inválida: ' + path;
   path = path.substr(1);
   var r = getRoute(path);
@@ -43,9 +43,10 @@ export function getRoute(path: string): Route {
   return null;
 }
 
-export function configRouter(options) {
+export function configRouter(options: {mode: 'history' | 'hash', root: string, onError: (e: Error) => void}) {
   _mode = options && options['mode'] && options['mode'] == 'history' && !!(history['pushState']) ? 'history' : 'hash';
   _root = options && options.root ? '/' + clearSlashes(options.root) + '/' : '/';
+  _onError = options.onError;
   setTimeout(listen, 100);
 }
 
@@ -74,7 +75,7 @@ export function expandRoutePath(path) {
 }
 
 export function navigate(path) {
-  path = path ? path : '';
+  path = path || getFragment();
   if (_mode === 'history') {
     history.pushState(null, null, expandRoutePath(path));
   } else {
@@ -93,15 +94,16 @@ export function execRoute(path: string): void {
       r.params.forEach(function(p, i) {
         params[p] = match[i];
       })
-      r.action.execute(params);
+      return r.action.execute(params);
     }
   }
+  _onError(new Error('Rota inválida: ' + path));
 }
 
 var tm_listen;
 
 function listen() {
-  var current = getFragment();
+  var current = null;
   var fn = function() {
     var n = getFragment();
     if (current !== n) {

@@ -1,7 +1,7 @@
 declare function require(s: string): any;
 
-import {Application, Activity, MenuItem, Action} from './himbaSchema'
-import {expandRoutePath} from './himbaRouter';
+import {Application, Activity, MenuItem, Route, Action} from './himbaSchema'
+import {navigate, expandRoutePath, registerRoute} from './himbaRouter';
 
 var Tracker = require('./third/himbaTracker.js')
 export const autorun = Tracker.autorun as (fn: (computation?: TrackerComputation) => void) => TrackerComputation;
@@ -14,9 +14,8 @@ var _currentActivity = reactiveVar<Activity>(null);
 export var application: Application = {
   apptitle: null,
   menuItems: null,
-  navigate(url) {
-
-  },
+  fatalError: null,
+  navigate: navigate,
   currentActivity() {
     return _currentActivity.get()
   },
@@ -47,19 +46,58 @@ export var application: Application = {
 
 export function declareApplication(opts: {
   title: () => string,
-  menuItems: () => MenuItem[]
+  menuItems: () => MenuItem[],
+  fatalError: (e: Error) => void
 }): Application {
   application.apptitle = dependencyWithCache(opts.title);
   application.menuItems = dependencyWithCache(() => opts.menuItems().map( (mi) => {
     mi.href = () => expandRoutePath(mi.href);
     return mi;
   }));
+  application.fatalError = opts.fatalError;
   return application;
 }
 
-export function defineActivity(activity: Activity) {
-  delete activity.running;
+export var registerView: (route: Route) => void;
+
+export function defineActivity(opts: {
+  name: string,
+  icon(): string,
+  title(): string,
+  state(): any,
+  actions(): Action<any>[]
+}) {
+  var _content = reactiveVar<any>(null);
+  var activity: Activity = {
+    name: opts.name,
+    icon: opts.icon,
+    title: opts.title,
+    state: opts.state,
+    actions: opts.actions,
+    running: null,
+    content() {
+      debugger
+      return _content.get();
+    }
+  }
   _activities.push(activity);
+
+  registerView = function(route: Route) {
+    var url = route.url;
+    var render = route.render;
+    registerRoute(url, {
+      title: activity.title,
+      icon: activity.icon,
+      visible: () => true,
+      enabled: () => true,
+      execute(params: any[]) {
+        debugger
+         _currentActivity.set(activity);
+         navigate(url);
+        _content.set(render(activity.state(), params));
+      }
+    })
+  };
 }
 
 export interface TrackerComputation {

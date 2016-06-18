@@ -6,6 +6,7 @@ export interface Application {
   currentActivity(): Activity,
   actions(): Action<any>[],
   content(): any,
+  fatalError(e: Error): void
   // curr_activity: CurrentActivity,
   // openned_activity: ActivityInfo[],
   // error: string,
@@ -29,16 +30,19 @@ export interface Activity {
   title(): string,
   state(): any,
   actions(): Action<any>[],
-  running?: () => Action<any>,
-  content?: () => any,
+  running: () => Action<any>,
+  content: () => any
   // setStep(s: string): string;
   // queryClose(): void;
   // getTask(): string,
   // backStep(): boolean;
 }
 
+export interface Route {
+  url: string, render: (state: any, params: any[]) => void
+}
+
 export interface Action<PARAMS> {
-  name: string,
   visible(): boolean;
   enabled(): boolean;
   icon(): string,

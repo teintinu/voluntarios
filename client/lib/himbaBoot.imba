@@ -19,8 +19,12 @@ export def himbaBoot app
   if app != application
     throw 'missing declareApplication'
 
-  configRouter({mode: 'hash', root: '/'})
-  app.navigate(null)
+  configRouter {
+    mode: 'hash'
+    root: '/'
+    onError: do |e|
+      app.fatalError(e)
+  }
 
   utils.asap do
     var applayout = require('./layout/applayout')['applayout']
@@ -29,6 +33,8 @@ export def himbaBoot app
     $$(body).append _layout
 
     mdl_sync
+
+    app.navigate(null)
 
     _layout
 

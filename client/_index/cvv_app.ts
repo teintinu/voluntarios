@@ -1,7 +1,7 @@
 
 import {reactiveVar, declareApplication} from '../lib/himba.ts'
 
-// require('../home/homeActivity')
+import '../home/homeActivity'
 // require '../voluntarios/voluntariosActivity'
 
 var h = reactiveVar(new Date());
@@ -12,7 +12,6 @@ export var CVV_app = declareApplication({
   //   # (activity ? activity['title'] + ' - ' : '') + 'Voluntários'
   },
   menuItems() {
-    debugger
     return [
       {
         title: () => 'Home',
@@ -25,6 +24,10 @@ export var CVV_app = declareApplication({
         href: () => '/voluntarios'
       }
     ];
+  },
+  fatalError(e: Error) {
+    console.log((e as any).stack);
+    alert(e.message);
   }
 });
 

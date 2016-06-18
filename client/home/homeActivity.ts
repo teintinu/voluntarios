@@ -1,57 +1,67 @@
 
-// import homeView from './homeView'
+import {dependency, defineActivity} from '../lib/himba'
 
-// import {defineActivity} from '../lib/mainActivity/himbaAppModel.ts'
+var teste = {
+  _cont: 1,
+  _dep: dependency(),
+  cont() {
+    this._dep.depend();
+    return this._cont;
+  },
+  inc() {
+    this._dep.changed();
+    this._cont++;
+  },
+  set(v) {
+    this._dep.changed();
+    this._cont = v;
+  }
+};
 
+export var homeActivity = defineActivity({
+  name: 'home',
+  title: () => 'Home',
+  icon: () => 'home',
+  state() {
+    return teste;
+  },
+  actions() {
+    return [
+      {
+        title: () => 'zero',
+        icon: () => 'add',
+        visible: () => true,
+        enabled: () => true,
+        execute() {
+          teste.set(0);
+        }
+      },
+      {
+        title: () => '1000',
+        icon: () => 'add',
+        visible: () => true,
+        enabled: () => true,
+        execute() {
+          teste.set(1000);
+        }
+      },
+      {
+        title: () => '10000',
+        icon: () => 'add',
+        visible: () => true,
+        enabled: () => true,
+        execute() {
+          teste.set(10000);
+        }
+      }
+    ];
+  }
+  //  steps: [
+  //   {
+  //     name: 'bemvindo'
+  //      render: do <homeView state=this.state >
+  //    }
+  // ]
+});
 
-//  export var homeActivity = defineActivity {
-//    name: 'home'
-//    title: 'Home'
-//    icon: 'home'
-//    state: {
-//      _cont: 1,
-//      _dep: himba.dependency,
-//      cont: do
-//        this['_dep'].depend
-//        this['_cont']
-
-//      inc: do
-//        this['_dep'].changed
-//        this['_cont']++
-
-//    },
-//   actions() {
-
-//     return [
-//       {
-//         title: 'Adicionar',
-//         ontap() {
-//           // h5.content.title = 'x'
-//           // invalidate()
-//         }
-//       },
-//       {
-//         title: 'Editar',
-//         ontap() {
-//           // h5.content.title = 'y'
-//           // invalidate()
-//         }
-//       },
-//       {
-//         title: 'Remover',
-//         ontap() {
-//           // h5.content.title = 'z'
-//           // invalidate()
-//         }
-//       }
-//     ];
-//   },
-//      route: '/'
-//    steps: [
-//      {
-//        name: 'bemvindo'
-//        render: do <homeView state=this.state>
-//      }
-//    ]
-//  }
-
+import './homeView.imba';

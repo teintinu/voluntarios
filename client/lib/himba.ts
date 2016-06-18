@@ -63,13 +63,17 @@ export function declareApplication(opts: {
   menuItems: () => MenuItem[],
   fatalError: (e: Error) => void
 }): Application {
-  application.apptitle = dependencyWithCache(opts.title);
-  application.menuItems = dependencyWithCache(() => opts.menuItems().map( (mi) => {
-    var r = utils.clone(mi);
-    r.href = dependencyWithCache( () => expandRoutePath(mi.href()) );
-    return r;
-  }));
-  application.fatalError = opts.fatalError;
+  utils.asap(() => {
+    application.apptitle = dependencyWithCache(() => {
+      return document.title = opts.title();
+    });
+    application.menuItems = dependencyWithCache(() => opts.menuItems().map((mi) => {
+      var r = utils.clone(mi);
+      r.href = dependencyWithCache(() => expandRoutePath(mi.href()));
+      return r;
+    }));
+    application.fatalError = opts.fatalError;
+  });
   return application;
 }
 

@@ -4,12 +4,12 @@ import {reactiveVar, declareApplication} from '../lib/himba.ts'
 import '../home/homeActivity'
 import '../voluntarios/voluntariosActivity'
 
-var h = reactiveVar(new Date());
-
 export var CVV_app = declareApplication({
   title() {
-    return 'Voluntários ' + h.get()
-  //   # (activity ? activity['title'] + ' - ' : '') + 'Voluntários'
+    var c = CVV_app.currentActivity();
+    if (c)
+      return c.title() + ' - CVV'
+    return 'CVV';
   },
   menuItems() {
     return [
@@ -31,9 +31,6 @@ export var CVV_app = declareApplication({
   }
 });
 
-setInterval(() => {
-  h.set(new Date())
-}, 100);
   // def title activity
 
   // def onSearch text

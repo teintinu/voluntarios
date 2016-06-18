@@ -36,56 +36,56 @@ Alessandra
 65-99710101
 samnuness@hotmail.com
 30/04
-Amorim 
+Amorim
 37
 3278-8643
 
 
 Soniams6@hotmail.com
 30/09
-Adriano 
+Adriano
 42
 
 
 8141-2139
 Adriano.santos.bm@gmail.com
 13/02
-Amanda 
+Amanda
 44
 
 9860-2945
 8238-0928
 amandaanut@hotmail.com
 22/06
-Antonio 
+Antonio
 45
 
 
 9178-3021
 Carmo.jesus@gmail.com
 19/07
-Carlos 
+Carlos
 14
 9459-1776
 
 9996-9222
 carlosalexandre.gyn@gmail.com
 14/05
-Cida 
+Cida
 29
 
 3537-4268
 9103-3326
 cidaprofissional66@hotmail.com
 07/12
-Cleusa 
+Cleusa
 16
 3256-4190
 
 9241-0244
 cleusadaf@yahoo.com.br
 11/02
-Cristina 
+Cristina
 17
 
 8192-4479
@@ -99,60 +99,60 @@ Dayse
 92856229
 dayse_anjus@hotmail.com
 16/09
-Daniel 
+Daniel
 18
-3259-2610 
+3259-2610
 
 8225-1133
 danielaugustoribeiro@hotmail.com
 16/03
-DeJé 
+DeJé
 15
 3229- 3507
- 
+
 9979- 4746
 mjesusdfurtado@hotmail.com
 19/06
-Elieth 
+Elieth
 40
 
 
 9971-1316
 eliethslin@hotmail.com
 12/07
-Hamira 
+Hamira
 05
 3246-0109
 
 9975-1650
 
 25/01
-Ilma 
+Ilma
 08
 3086-6931
- 
+
 
 ilmamima@hotmail.com
 29/05
-Jane 
+Jane
 32
 8224-9732
 
 3642-0094
-liiamorales@gmail.com 
+liiamorales@gmail.com
 29/07
-Joao 
+Joao
 02
 3286-5158
 3230-7500
 9980-9028
 joaodecastrotorres@yahoo.com.br
 26/07
-Juliene 
+Juliene
 19
 9277-0118
 
-8504-5199 
+8504-5199
 Jullye14@hotmail.com
 14/10
 José Fernando
@@ -166,101 +166,101 @@ Kiyoko
 13
 3212-0928
 
-8151-9141 
-kiyoko_matsumoto@terra.com.br 
+8151-9141
+kiyoko_matsumoto@terra.com.br
 20/10
-Lenita 
+Lenita
 12
 
 8186-1870
 8595-5256
 lenitaelena@hotmail.com
 04/12
-Lilian 
+Lilian
 30
 9611-7755
 3219-5100
 9208-7155
-ilian-silva@hotmail.com 
+ilian-silva@hotmail.com
 24/02
-Luis 
+Luis
 35
 
 
 8107-2111
 lcpellissari@terra.com.br
 09/02
-Marcia 
+Marcia
 31
 
-3201-1029 
-8150-8512 
-marcelia.queiroga@gmail.com 
+3201-1029
+8150-8512
+marcelia.queiroga@gmail.com
 17/09
-Marcos 
+Marcos
 07
 
-t-8309-0571 
+t-8309-0571
 9955-4441
 martrccos@hotmail.com
 25/08
-Maria Afonsa 
+Maria Afonsa
 01
 3225-4217
 3227-2823
 8146-8638
-afonsasilva12@hotmail.com 
+afonsasilva12@hotmail.com
 12/11
-Maria Sueli 
+Maria Sueli
 23
 3091-2665
-3521-1160 
+3521-1160
 8118-9570
 aguiamarias@gmail.com
 08/10
-Marilu 
+Marilu
 24
 3942-0115
 3281-2166
 8501-4756
 chagasmarilu@gmail.com
 10/10
-Mario 
+Mario
 11
 3241-6305
 
 9972-6305
-carasul@terra.com.br 
+carasul@terra.com.br
 16/09
-Marly 
+Marly
 20
 3269-8390
- 
-8477-0497 
+
+8477-0497
 marlypedrosa@gmail.com
 03/03
-Mary 
+Mary
 09
 3281-5409
 
 8164-6674
 mary12feliz@bol.com.br
 19/08
-Messias 
+Messias
 21
 85631806 oi
 82883662 tim
 9954-9555 v
 Jesus42jesus@hotmail.com
 04/04
-Marilia 
+Marilia
 41
 3609-3883
 
 8244-9000
 carmensleao@gmail.com
 02/02
-Magda 
+Magda
 43
 3095-2385
 
@@ -274,35 +274,35 @@ Norma
 9236-8586 T
 normamarcia@gmail.com
 17/07
-Rocha 
+Rocha
 22
 3233-4620
 
 9213-2417
 Jdarcy68@hotmail.com
 01/05
-Rosana 
+Rosana
 26
 
 
 8212-8626
 ro-m-santo@gmail.com
 17/02
-Tania 
+Tania
 28
 
 8218-0475
 8412-0799
 thaniapidde@hotmail.com
 06/08
-Tavares 
+Tavares
 26
 3313-6294
 
 8423-8298
 parafixadeia@hotmail.com
 31/12
-Valmer 
+Valmer
 03
 3588-3335
 
@@ -339,7 +339,13 @@ valeriaribeiro09@hotmail.com
       telcom,
       celular,
       email,
-      aniv
+      aniv,
+      whatsapp() {
+        return celular;
+      },
+      telefone() {
+        return telres;
+      }
     })
     // console.log(i, nome, codigo, celular, email, aniv);
   }

@@ -1,5 +1,5 @@
 
-import registerView,dependency from '../lib/himba'
+import registerView,dependency from '../../lib/himba'
 
 var dep = dependency()
 var count=0

@@ -1,6 +1,6 @@
 
-import {application, dependency, defineActivity} from '../lib/himba'
-import {lista_voluntarios} from '../db/db'
+import {application, dependency, defineActivity} from '../../lib/himba'
+import {lista_voluntarios} from '../../db/db'
 
 export var voluntariosActivity = defineActivity({
   name: 'voluntarios',

@@ -1,5 +1,5 @@
 
-import {dependency, defineActivity} from '../lib/himba'
+import {dependency, defineActivity} from '../../lib/himba'
 
 var teste = {
   _cont: 1,

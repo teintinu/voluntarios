@@ -1,8 +1,8 @@
 
 import {reactiveVar, declareApplication} from '../lib/himba.ts'
 
-import '../home/homeActivity'
-import '../voluntarios/voluntariosActivity'
+import '../atividades/home/homeActivity'
+import '../atividades/voluntarios/voluntariosActivity'
 
 export var CVV_app = declareApplication({
   title() {

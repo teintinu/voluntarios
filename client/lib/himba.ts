@@ -37,7 +37,8 @@ export var application: Application = {
   },
   set searchText(value: string) {
     _searchText.set(value)
-  }
+  },
+  startup: null
 
   // curr_process: null,
   // openned_processes: [],
@@ -61,7 +62,8 @@ export var application: Application = {
 export function declareApplication(opts: {
   title: () => string,
   menuItems: () => MenuItem[],
-  fatalError: (e: Error) => void
+  fatalError: (e: Error) => void,
+  startup: () => void
 }): Application {
   utils.asap(() => {
     application.apptitle = dependencyWithCache(() => {
@@ -73,6 +75,11 @@ export function declareApplication(opts: {
       return r;
     }));
     application.fatalError = opts.fatalError;
+    application.startup = function() {
+      utils.asap(opts.startup);
+      _startup_list.forEach(utils.asap);
+      _startup_list = null;
+    }
   });
   return application;
 }
@@ -164,3 +171,11 @@ export function dependencyWithCache<T>(fn: () => T): () => T {
   }
 }
 
+var _startup_list = [];
+export function startup(fn: () => void)
+{
+  if (_startup_list)
+    _startup_list.push(fn);
+  else
+    utils.asap(fn);
+}

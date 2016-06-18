@@ -1,5 +1,6 @@
 
 import {reactiveVar, declareApplication} from '../lib/himba.ts'
+import {load_facebook_sdk} from '../lib/oauth/facebook_sdk.ts'
 
 import '../atividades/home/homeActivity'
 import '../atividades/voluntarios/voluntariosActivity'
@@ -25,9 +26,12 @@ export var CVV_app = declareApplication({
       }
     ];
   },
-  fatalError(e: Error) {
+  fatalError(e) {
     console.log((e as any).stack);
     alert(e.message);
+  },
+  startup() {
+    load_facebook_sdk('496019580599280');
   }
 });
 

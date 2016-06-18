@@ -7,7 +7,8 @@ export interface Application {
   actions(): Action<any>[],
   content(): any,
   searchText: string,
-  fatalError(e: Error): void
+  fatalError(e: Error): void,
+  startup(): void
   // curr_activity: CurrentActivity,
   // openned_activity: ActivityInfo[],
   // error: string,

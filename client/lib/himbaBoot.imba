@@ -34,10 +34,9 @@ export def himbaBoot app
 
     mdl_sync
 
-    app.navigate(null)
+    app.startup()
 
     _layout
-
 
 #
 var mdl_sync_tm = null

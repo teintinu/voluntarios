@@ -3,7 +3,7 @@ import {dependency} from '../himba';
 declare var FB: {
   init(opts: { appId: string, cookie: boolean, xfbml: boolean, version: string });
   api(url: string, callback: (response)=>void);
-  login();
+  login(callback: (response)=>void);
   getLoginStatus(callback: (response)=>void);
 }
 
@@ -22,43 +22,40 @@ export var statusFacebook = function() {
 }
 
 export function loginFacebook() {
-  FB.login();
+  FB.login(checkLoginState);
+}
+
+function statusChangeCallback(response) {
+  debugger
+  console.log('statusChangeCallback');
+  console.log(response);
+  if (response.status === 'connected') {
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      _status = {
+        connected: true,
+        name: response.name
+      };
+      _dep.changed();
+    });
+  } else {
+    error(response.status);
+  }
+}
+
+function error(msg: string) {
+  _status = {
+    connected: false,
+    error: msg
+  };
+  _dep.changed();
+}
+
+function checkLoginState() {
+  FB.getLoginStatus(statusChangeCallback)
 }
 
 export function load_facebook_sdk(appId: string) {
-
-  function statusChangeCallback(response) {
-    debugger
-    console.log('statusChangeCallback');
-    console.log(response);
-    if (response.status === 'connected') {
-      FB.api('/me', function(response) {
-        console.log('Successful login for: ' + response.name);
-        _status = {
-          connected: true,
-          name: response.name
-        };
-        _dep.changed();
-      });
-    } else {
-      error(response.status);
-    }
-  }
-
-  function error(msg: string) {
-    _status = {
-      connected: false,
-      error: msg
-    };
-    _dep.changed();
-  }
-
-  // This function is called when someone finishes with the Login
-  // Button.  See the onlogin handler attached to it in the sample
-  // code below.
-  function checkLoginState() {
-    FB.getLoginStatus(statusChangeCallback)
-  }
 
   window['fbAsyncInit'] = function() {
     FB.init({

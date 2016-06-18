@@ -17,6 +17,8 @@
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
+    "color": "^0.11.1",
+    "d3-path": "^1.0.0",
     "html-webpack-plugin": "^2.19.0",
     "imba": "^0.14.5",
     "imba-loader": "^1.0.1",

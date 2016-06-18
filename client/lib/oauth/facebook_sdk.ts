@@ -26,12 +26,8 @@ export function loginFacebook() {
 }
 
 function statusChangeCallback(response) {
-  debugger
-  console.log('statusChangeCallback');
-  console.log(response);
   if (response.status === 'connected') {
     FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
       _status = {
         connected: true,
         name: response.name

@@ -1,3 +1,18 @@
+export function voluntarioLogado() {
+  return {
+    RG: {
+      realizadas: 6,
+      presencas: 6,
+      faltas: 1,
+      atendimentos: 5
+    },
+    RGV: {
+      realizadas: 3,
+      presencas: 2,
+      faltas: 1
+    }
+  }
+}
 
 export function lista_voluntarios() {
   var doc = `

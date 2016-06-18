@@ -2348,9 +2348,12 @@
 
       Imba.attr(tag,'width');
       Imba.attr(tag,'height');
+      Imba.attr(tag,'viewBox');
 
+      Imba.attr(tag,'fill');
       Imba.attr(tag,'stroke');
       Imba.attr(tag,'stroke-width');
+      Imba.attr(tag,'stroke-dasharray');
     });
 
     tag$.ns('svg').defineTag('svg', function(tag){

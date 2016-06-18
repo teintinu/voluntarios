@@ -6,6 +6,7 @@ export interface Application {
   currentActivity(): Activity,
   actions(): Action<any>[],
   content(): any,
+  searchText: string,
   fatalError(e: Error): void
   // curr_activity: CurrentActivity,
   // openned_activity: ActivityInfo[],

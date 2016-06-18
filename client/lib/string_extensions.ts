@@ -1,4 +1,14 @@
 
+declare interface String {
+  removeAccents(): String;
+  l_compareTo(s: String): number;
+  l_contains(s: String): boolean;
+  l_relevance(s): number;
+  hQueryWords(): string[]
+  hContainsSoundex(str: string): boolean
+  hSoundexQueryWords(): string[],
+}
+
 String.prototype.removeAccents = function() {
   var s=this;
   removeAcentosRegExp.forEach((fn) => {

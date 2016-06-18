@@ -1,4 +1,6 @@
- tag voluntariosView
+import registerView,dependency from '../lib/himba'
+
+tag voluntariosView
   prop state
   def render
     <self>
@@ -12,3 +14,9 @@
           <span.mdl-list__item-secondary-content>
             <a.mdl-list__item-secondary-action href="#">
               <i.material-icons> 'star'
+
+registerView
+  url: '/voluntarios'
+  render: do |state, params|
+    debugger
+    <voluntariosView state=state>

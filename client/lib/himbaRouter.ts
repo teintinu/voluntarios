@@ -6,6 +6,7 @@ var _routes: Route[] = [];
 var _root: string;
 var _mode: 'history' | 'hash';
 var _onError: (e: Error) => void;
+var _afterExec: () => void;
 
 export interface Route {
   path: string,
@@ -43,10 +44,11 @@ export function getRoute(path: string): Route {
   return null;
 }
 
-export function configRouter(options: {mode: 'history' | 'hash', root: string, onError: (e: Error) => void}) {
+export function configRouter(options: { mode: 'history' | 'hash', root: string, afterExec: () => void, onError: (e: Error) => void }) {
   _mode = options && options['mode'] && options['mode'] == 'history' && !!(history['pushState']) ? 'history' : 'hash';
   _root = options && options.root ? '/' + clearSlashes(options.root) + '/' : '/';
   _onError = options.onError;
+  _afterExec = options.afterExec;
   setTimeout(listen, 100);
 }
 
@@ -94,7 +96,9 @@ export function execRoute(path: string): void {
       r.params.forEach(function(p, i) {
         params[p] = match[i];
       })
-      return r.action.execute(params);
+      r.action.execute(params);
+      _afterExec();
+      return;
     }
   }
   _onError(new Error('Rota inválida: ' + path));

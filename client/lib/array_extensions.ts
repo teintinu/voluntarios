@@ -1,6 +1,18 @@
 
+declare interface Array<T> {
+  compare_fn: (a: T,b: T)=>number
+  binarySearch(el: T, compare_fn: (a: T,b: T)=>number);
+  binarySearchIdx(el: T, compare_fn: (a: T,b: T) => number);
+  binaryInsert(el: T, compare_fn: (a: T,b: T) => number);
+  binaryRemove(el: T, compare_fn: (a: T,b: T) => number);
+  numberComparing();
+  dateComparing();
+  stringComparing();
+  filterWithRelevance(fn: (v: T) => number);
+  random(): T;
+}
 
-Array.prototype.binarySearch = function binarySearch(el, compare_fn) {
+Array.prototype.binarySearch = function (el, compare_fn) {
 	compare_fn = compare_fn || this.compare_fn
     var m = 0;
     var n = this.length - 1;
@@ -19,7 +31,7 @@ Array.prototype.binarySearch = function binarySearch(el, compare_fn) {
     return undefined;
 }
 
-Array.prototype.binarySearchIdx = function binarySearch(el, compare_fn) {
+Array.prototype.binarySearchIdx = function (el, compare_fn) {
 	compare_fn = compare_fn || this.compare_fn
     var m = 0;
     var n = this.length - 1;
@@ -37,14 +49,14 @@ Array.prototype.binarySearchIdx = function binarySearch(el, compare_fn) {
     return -m - 1;
 }
 
-Array.prototype.binaryInsert = function binaryInsert(el, compare_fn) {
+Array.prototype.binaryInsert = function (el, compare_fn) {
   var i = -this.binarySearchIdx(el, compare_fn);
   if (i > 0)
   	this.splice(i, 0, el);
   return;
 }
 
-Array.prototype.binaryRemove = function binaryRemove(el, compare_fn) {
+Array.prototype.binaryRemove = function (el, compare_fn) {
   var i = this.binarySearchIdx(el, compare_fn);
   if (i >= 0)
   	this.splice(i, 1);
@@ -83,7 +95,7 @@ Array.prototype.stringComparing = function() {
 
 Array.prototype.filterWithRelevance = function (fn) {
   var r = this.reduce( function (r, item) {
-    var relevance = fn(item);
+    var relevance: number = fn(item);
     if (relevance >= 0)
       r.push({item, relevance})
     return r;

@@ -1,5 +1,5 @@
 
-import application from '../himba.ts'
+import application,autorun from '../himba.ts'
 
 tag appheader < header
   attr title
@@ -21,4 +21,4 @@ tag appheader < header
 #            if item['visible']
             <li.mdl-menu__item :tap=action['execute']> action.title
   def searchKeyUp
-    application.open_search @search.value
+    application.searchText = @search.value

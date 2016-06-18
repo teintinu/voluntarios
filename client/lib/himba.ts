@@ -7,9 +7,12 @@ var Tracker = require('./third/himbaTracker.js')
 export const autorun = Tracker.autorun as (fn: (computation?: TrackerComputation) => void) => TrackerComputation;
 
 export import utils = require('./utils.ts');
+import './array_extensions'
+import './string_extensions'
 
 var _activities: Activity[] = [];
 var _currentActivity = reactiveVar<Activity>(null);
+var _searchText = reactiveVar('');
 
 export var application: Application = {
   apptitle: null,
@@ -29,7 +32,12 @@ export var application: Application = {
       return c.actions();
     return [];
   },
-
+  get searchText(): string {
+    return _searchText.get()
+  },
+  set searchText(value: string) {
+    _searchText.set(value)
+  }
 
   // curr_process: null,
   // openned_processes: [],
@@ -44,6 +52,12 @@ export var application: Application = {
   // }
 };
 
+// TODO imba compiler style
+(application as any).setSearchText = function(v) {
+  this.searchText = v;
+};
+
+
 export function declareApplication(opts: {
   title: () => string,
   menuItems: () => MenuItem[],
@@ -51,8 +65,9 @@ export function declareApplication(opts: {
 }): Application {
   application.apptitle = dependencyWithCache(opts.title);
   application.menuItems = dependencyWithCache(() => opts.menuItems().map( (mi) => {
-    mi.href = () => expandRoutePath(mi.href);
-    return mi;
+    var r = utils.clone(mi);
+    r.href = dependencyWithCache( () => expandRoutePath(mi.href()) );
+    return r;
   }));
   application.fatalError = opts.fatalError;
   return application;
@@ -76,7 +91,6 @@ export function defineActivity(opts: {
     actions: opts.actions,
     running: null,
     content() {
-      debugger
       return _content.get();
     }
   }
@@ -91,7 +105,6 @@ export function defineActivity(opts: {
       visible: () => true,
       enabled: () => true,
       execute(params: any[]) {
-        debugger
          _currentActivity.set(activity);
          navigate(url);
         _content.set(render(activity.state(), params));

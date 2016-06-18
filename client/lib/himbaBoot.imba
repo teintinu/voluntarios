@@ -8,9 +8,6 @@ Imba['autorun'] = do |fn|
     var e = fn()
     mdl_sync()
 
-require('./array_extensions.js')
-require('./string_extensions.js')
-
 import configRouter from './himbaRouter.ts'
 
 var _layout
@@ -22,6 +19,9 @@ export def himbaBoot app
   configRouter {
     mode: 'hash'
     root: '/'
+    afterExec: do
+      # app.revertSearchText();
+
     onError: do |e|
       app.fatalError(e)
   }

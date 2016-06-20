@@ -1,7 +1,7 @@
 export function voluntarioLogado() {
   return {
     RG: {
-      realizadas: 6,
+      realizadas: 7,
       presencas: 6,
       faltas: 1,
       atendimentos: 5

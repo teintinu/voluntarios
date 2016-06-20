@@ -273,3 +273,7 @@ _:-ms-input-placeholder, :root .demo-graph {
   justify-content: center
 }
 
+.quadro {
+  width: 1em;
+  height: 1em;
+}

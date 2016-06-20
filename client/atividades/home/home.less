@@ -1,0 +1,32 @@
+._homeView {
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    -ms-grid-row-align: center;
+    align-items: center;
+}
+
+._homeView > div > div.donut {
+  align-items: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  -ms-grid-row-align: center;
+}
+
+._homeView .indice-participacao {
+  font-size-adjust: 0.4
+}
+
+._homeView .indice-participacao td:nth-child(1) {
+  width: 2em
+}
+
+._homeView .indice-participacao td:nth-child(3), ._homeView .indice-participacao td:nth-child(4), ._homeView .indice-participacao td:nth-child(5) {
+  width: 2em;
+  text-align: right;
+}
+
+@media (max-width: 840px) {
+  ._homeView ._chartDonut {
+    transform:scale(0.35);
+  }
+}

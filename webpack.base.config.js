@@ -22,6 +22,7 @@ var config = {
       //{ test: /\.html$/, loader: 'html' },
       { test: /\.(jpe?g|png|gif|svg|eot|woff|ttf|svg|woff2)$/, loader: "file?name=[name].[ext]" },
 	    { test: /\.css$/, loader: 'style-loader!css-loader!postcss-loader'},
+      { test: /\.less$/, loader: "style!css!less" },
       { test: /\.imba$/, loader: 'imba-loader'},
       { test: /\.ts$/, loader: 'ts-loader?configFileName=client/tsconfig.json' },
       { test: /\.js$/,

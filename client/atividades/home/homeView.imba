@@ -7,36 +7,75 @@ var dep = dependency()
 var count=0
 var icons=['star', 'alarm', 'add', 'search', 'home', 'person']
 
-require './home.css'
+require './home.less'
 import voluntarioLogado from '../../db/db.ts'
+
+var corRG='#E64A19'
+var corAtendimento = '#2E7D32'
+var corRGV = '#1A237E'
 
 tag homeView
   prop state
 
   def render
     <self.mdl-card.mdl-shadow--2dp.mdl-cell.mdl-cell--12-col.mdl-grid>
-      <div.mdl-card__title.mdl-card--expand>
-        <div.center-content.mdl-cell.mdl-cell--4-col.mdl-cell>
+      <div.mdl-card__title.mdl-card--expand.mdl-cell--12-col.mdl-grid>
+        <div.mdl-cell.mdl-cell--4-col.mdl-cell--1-col-phone>
           <chartDonut size=200
             total=voluntarioLogado()['RG']['realizadas']
-            slices=[{donutColor: '#E64A19', textColor: 'black', value: voluntarioLogado()['RG']['presencas']}]>
-          <div> "Reuniões de grupo"
-        <div.center-content.mdl-cell.mdl-cell--4-col.mdl-cell>
+            slices=[{donutColor: corRG, textColor: 'black', value: voluntarioLogado()['RG']['presencas']}]>
+        <div.mdl-cell.mdl-cell--4-col.mdl-cell--1-col-phone>
           <chartDonut
             size=200
             total=voluntarioLogado()['RG']['realizadas']
-            slices=[{donutColor: '#2E7D32', textColor: 'black', value: voluntarioLogado()['RG']['atendimentos']}]>
-          <span> "Atendimentos"
-        <div.center-content.mdl-cell.mdl-cell--4-col.mdl-cell>
+            slices=[{donutColor: corAtendimento, textColor: 'black', value: voluntarioLogado()['RG']['atendimentos']}]>
+        <div.mdl-cell.mdl-cell--4-col.mdl-cell--1-col-phone>
           <chartDonut size=200
             total=voluntarioLogado()['RGV']['realizadas']
             slices=[
-              {donutColor: '#1A237E', textColor: 'black', value: voluntarioLogado()['RGV']['presencas']}
+              {donutColor: corRGV, textColor: 'black', value: voluntarioLogado()['RGV']['presencas']}
             ]
           >
-          <span> "RGV's"
       <div.mdl-card__actions.mdl-card--border>
-          <span> "Presença nas reuniões de grupo"
+          <h6> "Índices de participação"
+          <table.mdl-data-table.mdl-js-data-table.mdl-shadow--2dp>
+          <tbody.indice-participacao>
+            <tr>
+              <td.mdl-data-table__cell--non-numeric >
+                <div.quadro style="background-color: {corRG}">
+
+              <td.mdl-data-table__cell--non-numeric >
+                "Presenças nas reuniões de grupo"
+
+              <td> voluntarioLogado()['RG']['presencas']
+              <td.mdl-data-table__cell--non-numeric > "de"
+              <td> voluntarioLogado()['RG']['realizadas']
+
+            <tr>
+              <td.mdl-data-table__cell--non-numeric >
+                <div.quadro style="background-color: {corAtendimento}">
+
+              <td.mdl-data-table__cell--non-numeric >
+                "Atendimento de vivências"
+
+              <td>
+                voluntarioLogado()['RG']['atendimentos']
+              <td.mdl-data-table__cell--non-numeric > "de"
+              <td>
+                voluntarioLogado()['RG']['realizadas']
+
+            <tr>
+              <td.mdl-data-table__cell--non-numeric >
+                <div.quadro style="background-color: {corRGV}">
+
+              <td.mdl-data-table__cell--non-numeric >
+                "Presenças nas RGV's"
+
+              <td>
+                voluntarioLogado()['RGV']['presencas']
+              <td.mdl-data-table__cell--non-numeric > "de"
+              <td>
+                voluntarioLogado()['RGV']['realizadas']
 
   def facebookLogin
     loginFacebook()

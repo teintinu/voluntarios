@@ -22,6 +22,8 @@
     "html-webpack-plugin": "^2.19.0",
     "imba": "^0.14.5",
     "imba-loader": "^1.0.1",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
     "precss": "^1.4.0",
     "ts-loader": "^0.8.2",
     "typescript": "^1.8.10",

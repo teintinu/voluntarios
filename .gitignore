@@ -7,3 +7,5 @@ cordova/platforms
 cordova/plugins
 cordova/www
 npm-debug.log
+client/**/*.js
+client/**/*.map

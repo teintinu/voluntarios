@@ -8,6 +8,7 @@ export const autorun = Tracker.autorun as (fn: (computation?: TrackerComputation
 
 export import utils = require('./utils.ts');
 import './array_extensions'
+import './date_extensions'
 import './string_extensions'
 
 var _activities: Activity[] = [];
@@ -23,8 +24,13 @@ export var application: Application = {
     return _currentActivity.get()
   },
   content() {
-    var c = _currentActivity.get();
-    return c && c.content() || 'NO CONTENT';
+    try {
+      var c = _currentActivity.get();
+      return c && c.content() || 'NO CONTENT';
+    }
+    catch(e) {
+      application.fatalError(e);
+    }
   },
   actions() {
     var c = _currentActivity.get();
@@ -118,7 +124,12 @@ export function defineActivity(opts: {
       execute(params: any[]) {
          _currentActivity.set(activity);
          navigate(url);
-        _content.set(render(activity.state(), params));
+         try {
+          _content.set(render(activity.state(), params));
+         }
+         catch(e) {
+            application.fatalError(e);
+         }
       }
     })
   };

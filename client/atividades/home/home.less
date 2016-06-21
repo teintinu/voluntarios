@@ -13,19 +13,30 @@
 }
 
 ._homeView .indice-participacao {
-  font-size-adjust: 0.4
+  font-size-adjust: 0.6
 }
 
 ._homeView .indice-participacao td:nth-child(1) {
   width: 2em
 }
 
-._homeView .indice-participacao td:nth-child(3), ._homeView .indice-participacao td:nth-child(4), ._homeView .indice-participacao td:nth-child(5) {
-  width: 2em;
+._homeView .indice-participacao td:nth-child(3) {
+  padding-left: 2em;
+}
+
+._homeView .indice-participacao td:nth-child(4) {
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+._homeView .indice-participacao td:nth-child(5) {
   text-align: right;
 }
 
 @media (max-width: 840px) {
+  ._homeView .indice-participacao {
+    font-size-adjust: 0.4
+  }
   ._homeView ._chartDonut {
     transform:scale(0.35);
   }

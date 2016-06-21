@@ -1,3 +1,16 @@
+enum EventoTipo {
+  Obrigatorio,
+  Facultativo,
+  Viagem
+}
+
+enum EventoSituacao {
+  SemConvite,
+  SemResposta,
+  Vai,
+  NaoVai
+}
+
 export function voluntarioLogado() {
   return {
     RG: {
@@ -10,7 +23,30 @@ export function voluntarioLogado() {
       realizadas: 3,
       presencas: 2,
       faltas: 1
-    }
+    },
+    agenda: [
+      {
+        inicio: new Date(2016, 5, 23, 15, 0, 0),
+        fim: new Date(2016, 5, 23, 19, 0, 0),
+        descricao: 'Meu plantão',
+        tipo: EventoTipo.Obrigatorio,
+        situacao: EventoSituacao.Vai
+      },
+      {
+        inicio: new Date(2016, 5, 26, 8, 0, 0),
+        fim: new Date(2016, 5, 26, 11, 0, 0),
+        descricao: 'RGV',
+        tipo: EventoTipo.Obrigatorio,
+        situacao: EventoSituacao.Vai
+      },
+      {
+        inicio: new Date(2016, 6, 13, 19, 0, 0),
+        fim: new Date(2016, 6, 13, 21, 0, 0),
+        descricao: 'Reunião do grupo 4',
+        tipo: EventoTipo.Obrigatorio,
+        situacao: EventoSituacao.Vai
+      }
+    ]
   }
 }
 

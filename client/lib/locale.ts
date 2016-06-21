@@ -24,5 +24,20 @@ export var locale = {
         ' de ',
         d.getFullYear()
       ].join('');
+    },
+    stringifyHour(d: Date) {
+      var h = d.getHours();
+      var m;
+      if (h>=12) {
+        h -= 12;
+        m = 'pm';
+      }
+      else m = 'am'
+      return [
+        h,
+        ':',
+        d.getMinutes(),
+        m
+      ].join('');
     }
 }

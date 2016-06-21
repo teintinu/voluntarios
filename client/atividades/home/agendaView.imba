@@ -8,20 +8,21 @@ tag agendaView < section
         <div.mdl-card__supporting-text.mdl-grid.mdl-grid--no-spacing>
           <h4.mdl-cell.mdl-cell--12-col>
             "Agenda"
-            for a in voluntarioLogado()['agenda']
-              <div.mdl-grid.mdl-grid--no-spacing.mdl-cell.mdl-cell--12-col>
-                <div.section__circle-container.mdl-cell.mdl-cell--2-col.mdl-cell--1-col-phone>
-                  <div.section__circle-container__circle.{cor(a)}>
-                    <span>
-                      a['inicio'].getDate()
-                      <.small> a['inicio'].getShortDayName()
+          for a in voluntarioLogado()['agenda']
+            <div.mdl-grid.mdl-grid--no-spacing.mdl-cell.mdl-cell--12-col>
+              <div.section__circle-container.mdl-cell.mdl-cell--2-col.mdl-cell--1-col-phone>
+                <div.section__circle-container__circle.{cor(a)}>
+                  <span>
+                    <.small> a['inicio'].getShortDayName()
+                    a['inicio'].getDate()
+                    <.small> a['inicio'].getShortMonthName()
 
-                <div.section__text.mdl-cell.mdl-cell--10-col-desktop.mdl-cell--6-col-tablet.mdl-cell--3-col-phone>
-                  <h5> formata(a)
-                  a['descricao']
+              <div.section__text.mdl-cell.mdl-cell--10-col-desktop.mdl-cell--6-col-tablet.mdl-cell--3-col-phone>
+                <h5> formata(a)
+                <div> a['descricao']
 
   def formata a
-    a['inicio'].stringify()
+    a['inicio'].stringifyHour()
 
   def cor a
     if (a['tipo'] === 1)

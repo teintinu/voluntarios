@@ -28,7 +28,7 @@ export function voluntarioLogado() {
       {
         inicio: new Date(2016, 5, 23, 15, 0, 0),
         fim: new Date(2016, 5, 23, 19, 0, 0),
-        descricao: 'Meu plantão',
+        descricao: 'Próximo plantão: P15/5',
         tipo: EventoTipo.Obrigatorio,
         situacao: EventoSituacao.Vai
       },

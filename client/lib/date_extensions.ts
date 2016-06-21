@@ -7,7 +7,8 @@ declare global {
     getShortMonthName: () => String;
     getDayName: () => String;
     getShortDayName: () => String;
-    stringify: () => String;
+    stringifyDate: () => String;
+    stringifyHour: () => String,
   }
 }
 
@@ -27,6 +28,10 @@ Date.prototype.getShortDayName = function() {
   return locale.getShortDayNames()[this.getDay()];
 }
 
-Date.prototype.stringify = function() {
+Date.prototype.stringifyDate = function() {
   return locale.stringifyDate(this);
+}
+
+Date.prototype.stringifyHour = function() {
+  return locale.stringifyHour(this);
 }

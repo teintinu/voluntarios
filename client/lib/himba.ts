@@ -9,6 +9,7 @@ export const autorun = Tracker.autorun as (fn: (computation?: TrackerComputation
 export import utils = require('./utils.ts');
 import './array_extensions'
 import './date_extensions'
+import './number_extensions'
 import './string_extensions'
 
 var _activities: Activity[] = [];

@@ -443,11 +443,13 @@ html, body {
           flex-shrink: 0;
   padding-top: 8px;
 }
-.mdl-demo section .section__text h5 {
+
+.mdl-demo section .section__text > h5 {
   font-size: inherit;
   margin: 0;
   margin-bottom: 0.5em;
 }
+
 .mdl-demo section .section__text a {
   text-decoration: none;
 }
@@ -743,18 +745,17 @@ html, body {
   z-index: 99;
 }
 
-
 .quadro {
   width: 1em;
   height: 1em;
 }
 
 .big {
-  font-size-adjust: 0.6
+  font-size: 120%;
 }
 
 .small {
-  font-size-adjust: 0.35
+  font-size: 70%;
 }
 
 

@@ -10,12 +10,12 @@ import (
 	"testing"
 )
 
-func TestVoluntarioSave(t *testing.T) {	
+func TestVoluntarioSave(t *testing.T) {
 	inst, err := aetest.NewInstance(nil)
 	if err != nil {
 		t.Fatalf("Failed to create instance: %v", err)
 	}
-	defer inst.Close()			
+	defer inst.Close()
 
 	v := Voluntario{
 		Nome: "Ana Íres",
@@ -52,8 +52,8 @@ func TestVoluntarioSave(t *testing.T) {
 		t.Errorf("Key expected")
 		return
 	}
-	
-	req2, err2 := inst.NewRequest("GET", "/api/voluntario/get?key=" + *key, nil)
+
+	req2, err2 := inst.NewRequest("GET", "/api/voluntario/get?key="+*key, nil)
 	if err2 != nil {
 		t.Fatalf("Failed to create req2: %v", err2)
 		return
@@ -75,6 +75,6 @@ func TestVoluntarioSave(t *testing.T) {
 	}
 
 	if v2.Nome != "Ana Íres" {
-		t.Errorf("Got nome %s; want %s", v2.Nome, "Ana Íres")		
+		t.Errorf("Got nome %s; want %s", v2.Nome, "Ana Íres")
 	}
 }

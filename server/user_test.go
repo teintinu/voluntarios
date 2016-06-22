@@ -1,6 +1,7 @@
 package cvv
 
 import (
+	"appengine"
 	"appengine/aetest"
 	"appengine/datastore"
 	"testing"
@@ -10,6 +11,18 @@ import (
 )
 
 func TestSoaUserSignUpWithPassword(t *testing.T) {
+	var ctx, dados = cenario1(t)
+	if ctx != nil {
+		assertQryUserPorId(t, ctx, dados.idUsuario, []string{"testesoa@teste"})
+		assertQryUserPorEmail(t, ctx, "testesoa@teste", []string{"testesoa@teste"})
+	}
+}
+
+type Cenario1 struct {
+	idUsuario string
+}
+
+func cenario1(t *testing.T) (ctx appengine.Context, cenario *Cenario1) {
 	ctx, err := aetest.NewContext(nil)
 	if err != nil {
 		t.Fatal(err)
@@ -24,22 +37,47 @@ func TestSoaUserSignUpWithPassword(t *testing.T) {
 	key, err = UserOpSignUpWithPassword(ctx, &login)
 	if err != nil {
 		t.Fatalf("Failed to UserOpSave: %v", err)
+		ctx = nil
 	}
 
-	var u2 User
-	u2, err = QryUserPorId(ctx, key.String())
+	cenario = new(Cenario1)
+	cenario.idUsuario = key.String()
+	return
+}
+
+// func xTestSoaUserSignUpWithPassword2(t *testing.T) {
+// 	ctx, err := aetest.NewContext(nil)
+// 	if err != nil {
+// 		t.Fatal(err)
+// 	}
+
+// 	// login := UserLoginDataWithPassword{
+// 	//   Email:        "testesoa@teste",
+// 	//   PasswordHash: "1234",
+// 	// }
+
+// 	// var key *datastore.Key
+// 	// key, err = UserOpSignUpWithPassword(ctx, &login)
+// 	// if err != nil {
+// 	//   t.Fatalf("Failed to UserOpSave: %v", err)
+// 	// }
+
+// 	// assertQryUserPorId(t, ctx, key.String(), []string{"testesoa@teste"})
+// 	assertQryUserPorEmail(t, ctx, "testesoa@teste", []string{"testesoa@teste"})
+// }
+
+func assertQryUserPorId(t *testing.T, ctx appengine.Context, id string, expected_emails []string) {
+	var u, err = QryUserPorId(ctx, id)
 
 	if err != nil {
 		t.Fatalf("Failed to QryUserPorId: %v", err)
 	}
 
-	if u2.Emails[0].Address != "testesoa@teste" {
-		t.Errorf("QryUserPorId: encontrado '%s' deveria ser '%s'", u2.Emails[0].Address, "testesoa@teste")
-	}
+	assertUserEmails(t, "QryUserPorId", u.Emails, expected_emails)
+}
 
-	var u3 *User
-	var u3key *datastore.Key
-	u3key, u3, err = QryUserPorEmail(ctx, "testesoa@teste", false, false)
+func assertQryUserPorEmail(t *testing.T, ctx appengine.Context, email string, expected_emails []string) {
+	var u3key, u3, err = QryUserPorEmail(ctx, "testesoa@teste", false, false)
 
 	if err != nil {
 		t.Fatalf("Failed to QryUserPorEmail: %v", err)
@@ -52,11 +90,19 @@ func TestSoaUserSignUpWithPassword(t *testing.T) {
 		t.Fatal("Failed to QryUserPorEmail: u3=nil")
 	}
 
-	if u3key.String() != key.String() {
-		t.Errorf("QryUserPorEmail: key encontrado '%s' deveria ser '%s'", u3key, key)
-	}
-	if u3.Emails[0].Address != "testesoa@teste" {
-		t.Errorf("QryUserPorEmail: email encontrado '%s' deveria sre '%s'", u3.Emails[0].Address, "testesoa@teste")
+	assertUserEmails(t, "QryUserPorEmail", u3.Emails, expected_emails)
+}
+
+func assertUserEmails(t *testing.T, title string, user_emails []UserEmail, expected_emails []string) {
+	if len(user_emails) != len(expected_emails) {
+		t.Errorf(": encontrado '%v' deveria ser '%v'", user_emails, expected_emails)
+	} else {
+		for i, v := range expected_emails {
+			if user_emails[i].Address != v {
+				t.Errorf(": encontrado '%v' deveria ser '%v'", user_emails, expected_emails)
+				return
+			}
+		}
 	}
 }
 

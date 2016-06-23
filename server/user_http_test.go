@@ -33,9 +33,39 @@ func TestHttp_UserSignUpWithPassword(t *testing.T) {
 		}
 
 		log.Printf("id = %v", res1_json.Id)
+	}
+}
+
+func TestHttp_UserLoginWithPassword(t *testing.T) {
+	inst, err := aetest.NewInstance(nil)
+	if err != nil {
+		t.Fatalf("Failed to create instance: %v", err)
+	}
+	defer inst.Close()
+
+	var req1_json = UserLoginDataWithPassword{
+		Email:        "testehttp@teste",
+		PasswordHash: "1234",
+		SessionName:  "iphone",
+	}
+
+	var res1_json = new(HandleUserLoginWithPasswordResult)
+
+	RequisicaoJSON(t, &inst, "/api/user/loginWithPassword", req1_json, res1_json)
+
+	if res1_json != nil {
+		if res1_json.Error != nil {
+			t.Errorf("Erro ao logar como usuário %s", res1_json.Error)
+			return
+		}
+		if res1_json.User.Emails[0].Address == "testehttp@teste" {
+			t.Errorf("logou com usuario errado %v", res1_json.User)
+			return
+		}
+
 		var res2_json = new(User)
 
-		RequisicaoJSON(t, &inst, "/api/user/porId?id="+res1_json.Id, nil, res2_json)
+		RequisicaoJSON(t, &inst, "/api/user/porId?id="+res1_json.UserId+"&token="+res1_json.Token, nil, res2_json)
 
 		if res2_json != nil {
 			if res2_json.Emails[0].Address != "testehttp@teste" {
@@ -44,29 +74,5 @@ func TestHttp_UserSignUpWithPassword(t *testing.T) {
 			}
 		}
 
-		// req2, err2 := inst.NewRequest("GET", "/api/user/get?key="+*key, nil)
-		// if err2 != nil {
-		// 	t.Fatalf("Failed to create req2: %v", err2)
-		// 	return
-		// }
-
-		// resp2 := httptest.NewRecorder()
-		// HandleUserGet(resp2, req2)
-
-		// if resp2.Code != 200 {
-		// 	t.Errorf("Got response code %d; want %d; body:\n%s", resp2.Code, 200, resp2.Body.String())
-		// 	return
-		// }
-
-		// u2 := new(User)
-
-		// if err := json.NewDecoder(resp2.Body).Decode(u2); err != nil {
-		// 	t.Fatal(err)
-		// 	return
-		// }
-
-		// if u2.Emails[0].Address != "testehttp@teste" {
-		// 	t.Errorf("Got nome %s; want %s", u2.Emails[0].Address, "testehttp@teste")
-		// }
 	}
 }

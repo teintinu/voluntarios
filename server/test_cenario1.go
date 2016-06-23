@@ -30,7 +30,7 @@ func CriaCenario1(t *testing.T) (contexto *Contexto, cenario *Cenario1) {
 
 	login := UserLoginDataWithPassword{
 		Email:        "testesoa@teste",
-		PasswordHash: "1234",
+		PasswordHash: "123",
 	}
 
 	var key *datastore.Key

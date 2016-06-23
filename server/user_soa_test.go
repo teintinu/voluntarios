@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-func TestInternal_UserSignUpWithPassword(t *testing.T) {
+func TestSoa_UserSignUpWithPassword(t *testing.T) {
 	var ctx, dados = CriaCenario1(t)
 	if ctx != nil {
 		assertQryUserPorId(t, ctx, dados.idUsuario, []string{"testesoa@teste"})
@@ -12,11 +12,31 @@ func TestInternal_UserSignUpWithPassword(t *testing.T) {
 	}
 }
 
-func TestInternal_UserSignAndLoginUpWithPassword(t *testing.T) {
+func TestSoa_UserSignAndLoginUpWithPassword(t *testing.T) {
 	var ctx, dados = CriaCenario1(t)
 	if ctx != nil {
 		assertQryUserPorId(t, ctx, dados.idUsuario, []string{"testesoa@teste"})
 		assertQryUserPorEmail(t, ctx, "testesoa@teste", []string{"testesoa@teste"})
+	}
+}
+
+func TestSoa_UserLoginWithPassword(t *testing.T) {
+	var ctx, dados = CriaCenario1(t)
+
+	var login = UserLoginDataWithPassword{
+		Email:        "testesoa@teste",
+		PasswordHash: "123",
+		SessionName:  "android",
+	}
+	var err = UserOpLoginWithPassword(ctx, &login)
+	if err != nil {
+		t.Fatalf("Failed to UserOpLoginWithPassword: %v", err)
+	}
+	if ctx.usuarioLogadoId != dados.idUsuario {
+		t.Fatalf("Failed to UserOpLoginWithPassword usuario logado é %v mas deveria ser %v", ctx.usuarioLogadoId, dados.idUsuario)
+	}
+	if ctx.resume_token == "" {
+		t.Fatalf("Failed to UserOpLoginWithPassword: Tem que existe um token")
 	}
 }
 

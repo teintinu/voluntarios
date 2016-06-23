@@ -42,9 +42,10 @@ func HandleUserSignupWithPassword(w http.ResponseWriter, r *http.Request) {
 }
 
 type HandleUserLoginWithPasswordResult struct {
-	Error error
-	User  User
-	Token string
+	Error  error
+	UserId string
+	User   User
+	Token  string
 }
 
 func HandleUserLoginWithPassword(w http.ResponseWriter, r *http.Request) {
@@ -59,6 +60,7 @@ func HandleUserLoginWithPassword(w http.ResponseWriter, r *http.Request) {
 			var user *User
 			user, err = QryUserPorId(ctx, ctx.usuarioLogadoId)
 			if err == nil {
+				result.UserId = ctx.usuarioLogadoId
 				result.User = *user
 				result.Token = ctx.resume_token
 			}

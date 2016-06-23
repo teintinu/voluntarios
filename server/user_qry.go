@@ -6,11 +6,13 @@ import (
 	"strings"
 )
 
-func QryUserPorId(ctx appengine.Context, id string) (u User, err error) {
+func QryUserPorId(ctx appengine.Context, id string) (u *User, err error) {
 	var s = strings.Split(id, "/User,")
 	var key = datastore.NewKey(ctx, "User", s[1], 0, nil)
 	if err == nil {
-		err = datastore.Get(ctx, key, &u)
+		var usr User
+		err = datastore.Get(ctx, key, &usr)
+		u = &usr
 	}
 	return
 }
@@ -26,7 +28,7 @@ func QryUserPorEmail(ctx appengine.Context, email string, allowUnvefified bool, 
 	// 	query.Filter("Emails.Active =", true)
 	// }
 	var cursor = query.Run(ctx)
-	var u User = User{}
+	var u User
 	key, err = cursor.Next(&u)
 	user = &u
 	return

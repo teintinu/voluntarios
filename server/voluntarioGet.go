@@ -15,5 +15,5 @@ func HandleVoluntarioGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	encodeJsonToResponse(r, w, v)
+	stringifyJsonToResponse(r, w, v)
 }

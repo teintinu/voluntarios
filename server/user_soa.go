@@ -4,7 +4,6 @@ import (
 	"appengine"
 	"appengine/datastore"
 	"time"
-	//	"encoding/hex"
 )
 
 func UserOpSignUpWithPassword(ctx appengine.Context, login *UserLoginDataWithPassword) (key *datastore.Key, err error) {

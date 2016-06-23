@@ -2,13 +2,14 @@ package cvv
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
-func decodeJsonFromRequest(r *http.Request, w http.ResponseWriter, d interface{}) bool {
+func parseJsonFromRequest(r *http.Request, w http.ResponseWriter, d interface{}) bool {
 	var bytes, err = ioutil.ReadAll(r.Body)
+	log.Printf("parse = %s", string(bytes))
 	if err == nil {
 		err = json.Unmarshal(bytes, d)
 	}
@@ -20,10 +21,14 @@ func decodeJsonFromRequest(r *http.Request, w http.ResponseWriter, d interface{}
 	return true
 }
 
-func encodeJsonToResponse(r *http.Request, w http.ResponseWriter, d interface{}) bool {
-	fmt.Printf("enc %v", d)
+func stringifyJsonToResponse(r *http.Request, w http.ResponseWriter, d interface{}) bool {
+	log.Printf("stringify %v", d)
 
-	if err := json.NewEncoder(w).Encode(d); err != nil {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+
+	var err = json.NewEncoder(w).Encode(d)
+
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return false
 	}

@@ -11,54 +11,49 @@ func TestHttp_UserSignUpWithPassword(t *testing.T) {
 		t.Fatalf("Failed to create instance: %v", err)
 	}
 	defer inst.Close()
-	// v := UserLoginDataWithPassword{
-	// 	Email:        "testehttp@teste",
-	// 	PasswordHash: "1234",
-	// }
-	// var req_http, res_http = RequisicaoJSON(t, &inst, "/api/user/signupWithPassword", v)
 
-	//  http.ServeMux.ServeHTTP(w, r)
-	// if res_http != nil {
-	// 	HandleUserSignUpWithPassword(res_http, req_http)
+	var req_json = UserLoginDataWithPassword{
+		Email:        "testehttp@teste",
+		PasswordHash: "1234",
+	}
 
-	// 	t.Errorf(res_http.Body.String())
-	// 	var res_json = new(HandleUserSignUpWithPasswordResult)
+	var res_json = new(HandleUserSignUpWithPasswordResult)
 
-	// 	RespostaJSON(t, res_http, res_json)
-	// 	if res_json != nil {
-	// 		if res_json.err != nil {
-	// 			t.Errorf("Erro ao cadastrar usuário %s", res_json.err)
-	// 			return
-	// 		}
-	// 		if res_json.id == "" {
-	// 			t.Errorf("Nao foi retornado o id do usuário")
-	// 			return
-	// 		}
-	// 	}
+	RequisicaoJSON(t, &inst, "/api/user/signupWithPassword", req_json, res_json)
 
-	// req2, err2 := inst.NewRequest("GET", "/api/user/get?key="+*key, nil)
-	// if err2 != nil {
-	// 	t.Fatalf("Failed to create req2: %v", err2)
-	// 	return
-	// }
+	if res_json != nil {
+		if res_json.Error != nil {
+			t.Errorf("Erro ao cadastrar usuário %s", res_json.Error)
+			return
+		}
+		if res_json.Id == "" {
+			t.Errorf("Nao foi retornado o id do usuário")
+			return
+		}
 
-	// resp2 := httptest.NewRecorder()
-	// HandleUserGet(resp2, req2)
+		// req2, err2 := inst.NewRequest("GET", "/api/user/get?key="+*key, nil)
+		// if err2 != nil {
+		// 	t.Fatalf("Failed to create req2: %v", err2)
+		// 	return
+		// }
 
-	// if resp2.Code != 200 {
-	// 	t.Errorf("Got response code %d; want %d; body:\n%s", resp2.Code, 200, resp2.Body.String())
-	// 	return
-	// }
+		// resp2 := httptest.NewRecorder()
+		// HandleUserGet(resp2, req2)
 
-	// u2 := new(User)
+		// if resp2.Code != 200 {
+		// 	t.Errorf("Got response code %d; want %d; body:\n%s", resp2.Code, 200, resp2.Body.String())
+		// 	return
+		// }
 
-	// if err := json.NewDecoder(resp2.Body).Decode(u2); err != nil {
-	// 	t.Fatal(err)
-	// 	return
-	// }
+		// u2 := new(User)
 
-	// if u2.Emails[0].Address != "testehttp@teste" {
-	// 	t.Errorf("Got nome %s; want %s", u2.Emails[0].Address, "testehttp@teste")
-	// }
-	//	}
+		// if err := json.NewDecoder(resp2.Body).Decode(u2); err != nil {
+		// 	t.Fatal(err)
+		// 	return
+		// }
+
+		// if u2.Emails[0].Address != "testehttp@teste" {
+		// 	t.Errorf("Got nome %s; want %s", u2.Emails[0].Address, "testehttp@teste")
+		// }
+	}
 }

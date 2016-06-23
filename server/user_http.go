@@ -15,32 +15,25 @@ func HandleQryUserPorId(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	encodeJsonToResponse(r, w, v)
+	stringifyJsonToResponse(r, w, v)
 }
 
 type HandleUserSignUpWithPasswordResult struct {
-	err error
-	id  string
+	Error error
+	Id    string
 }
 
 func HandleUserSignupWithPassword(w http.ResponseWriter, r *http.Request) {
 	var login = new(UserLoginDataWithPassword)
-	if decodeJsonFromRequest(r, w, login) {
+	if parseJsonFromRequest(r, w, login) {
 		ctx := appengine.NewContext(r)
 		key, err := UserOpSignUpWithPassword(ctx, login)
 
 		var result HandleUserSignUpWithPasswordResult
-		result.err = err
+		result.Error = err
 		if err == nil {
-			result.id = key.String()
+			result.Id = key.String()
 		}
-		encodeJsonToResponse(r, w, result)
+		stringifyJsonToResponse(r, w, result)
 	}
-
-	// if err := json.NewEncoder(w).Encode(v); err != nil {
-	//     panic(err)
-	// }
-	// if err := json.NewEncoder(w).Encode(v); err != nil {
-	//     panic(err)
-	// }
 }

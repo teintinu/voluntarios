@@ -56,12 +56,20 @@ func UserOpLoginWithPassword(contexto *Contexto, login *UserLoginDataWithPasswor
 	return
 }
 
+func UserOpLogout(contexto *Contexto, token string) (err error) {
+	var key = datastore.NewKey(contexto.ctx, "LoginSession", token, 0, nil)
+	err = datastore.Delete(contexto.ctx, key)
+	contexto.resume_token = ""
+	contexto.usuarioLogadoId = ""
+	return
+}
+
 func criarSessaoDeLogin(contexto *Contexto, keyUser *datastore.Key, user *User, sessionName string) (err error) {
 	var key = datastore.NewKey(contexto.ctx, "LoginSession", hex.EncodeToString(New128().Bytes()), 0, nil)
 	var s = LoginSession{
 		UserId:      keyUser.String(),
 		SessionName: sessionName,
-		Expires:     time.Now().Add(7),
+		Expires:     time.Now().AddDate(0, 0, 1),
 	}
 	_, err = datastore.Put(contexto.ctx, key, &s)
 

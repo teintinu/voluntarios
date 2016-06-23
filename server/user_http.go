@@ -2,24 +2,23 @@ package cvv
 
 import (
 	"appengine"
-	"log"
 	"net/http"
 )
 
 func HandleQryUserPorId(w http.ResponseWriter, r *http.Request) {
-	log.Printf("HandleQryUserPorId %v", r.URL.Query().Get("id"))
 	var ctx = CriarContexto(appengine.NewContext(r))
-	var key = r.URL.Query().Get("id")
+	if ResumeLogin(ctx, r.URL.Query().Get("token"), w) {
 
-	var user, err = QryUserPorId(ctx, key)
-	log.Printf("HandleQryUserPorId usuario %v", user)
+		var key = r.URL.Query().Get("id")
+		var user, err = QryUserPorId(ctx, key)
 
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		stringifyJsonToResponse(r, w, user)
 	}
-
-	stringifyJsonToResponse(r, w, user)
 }
 
 type HandleUserSignUpWithPasswordResult struct {
@@ -70,4 +69,21 @@ func HandleUserLoginWithPassword(w http.ResponseWriter, r *http.Request) {
 			stringifyJsonToResponse(r, w, result)
 		}
 	}
+}
+
+type HandleUserLogoutResult struct {
+	Ok bool
+}
+
+func HandleUserLogout(w http.ResponseWriter, r *http.Request) {
+	var ctx = CriarContexto(appengine.NewContext(r))
+
+	var token = r.URL.Query().Get("token")
+
+	UserOpLogout(ctx, token)
+
+	var result HandleUserLogoutResult
+	result.Ok = true
+	stringifyJsonToResponse(r, w, result)
+
 }

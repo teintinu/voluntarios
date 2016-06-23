@@ -3,6 +3,7 @@ package cvv
 import (
 	"appengine/datastore"
 	"errors"
+	"log"
 	"strings"
 	"time"
 )
@@ -41,9 +42,11 @@ func QryUserValidaToken(contexto *Contexto, token string) (userId string, err er
 	var session LoginSession
 	err = datastore.Get(contexto.ctx, key, &session)
 	if err != nil {
+		err = errors.New("invalid session")
 		return
 	}
 
+	log.Printf("session = %v", session)
 	if session.Expires.Before(time.Now()) {
 		err = errors.New("session expires")
 		return

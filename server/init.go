@@ -15,6 +15,7 @@ func init() {
 
 	http.HandleFunc("/api/user/signupWithPassword", HandleUserSignupWithPassword)
 	http.HandleFunc("/api/user/loginWithPassword", HandleUserLoginWithPassword)
+	http.HandleFunc("/api/user/logout", HandleUserLogout)
 
 	//http.HandleFunc("/api/user/loginWithPassword", HandleUserLoginWithPassword)
 	//http.HandleFunc("/api/user/loginWithGoogle", HandleUserLoginWithGoogle)

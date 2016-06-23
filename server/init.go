@@ -10,6 +10,9 @@ func init() {
 
 	// http.HandleFunc("/api/user/get", HandleUserGet)
 	// http.HandleFunc("/api/user/save", HandleUserSave)
+
+	http.HandleFunc("/api/user/signupWithPassword", HandleUserSignupWithPassword)
+
 	//http.HandleFunc("/api/user/loginWithPassword", HandleUserLoginWithPassword)
 	//http.HandleFunc("/api/user/loginWithGoogle", HandleUserLoginWithGoogle)
 	//http.HandleFunc("/api/user/loginWithFacebook", HandleUserLoginWithFacebook)
@@ -18,4 +21,5 @@ func init() {
 
 	// http.HandleFunc("/api/voluntario/get", HandleVoluntarioGet)
 	// http.HandleFunc("/api/voluntario/save", HandleVoluntarioSave)
+
 }

@@ -16,10 +16,10 @@ func UserOpSignUpWithPassword(ctx appengine.Context, login *UserLoginDataWithPas
 			Active:   true,
 		},
 	}
-	u.Tokens = []UserToken{
-		UserToken{
-			Service: "password",
-			Key:     login.PasswordHash,
+	u.Services = []UserServices{
+		UserServices{
+			Name:    "password",
+			Token:   login.PasswordHash,
 			Options: "",
 			Expires: time.Now().Add(10000),
 		},

@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func HandleUserGet(w http.ResponseWriter, r *http.Request) {
+func HandleQryUserPorId(w http.ResponseWriter, r *http.Request) {
 	ctx := appengine.NewContext(r)
 	key := r.URL.Query().Get("key")
 	v, err := QryVoluntarioPorId(ctx, key)
@@ -18,38 +18,29 @@ func HandleUserGet(w http.ResponseWriter, r *http.Request) {
 	encodeJsonToResponse(r, w, v)
 }
 
-// func HandleUserSave(w http.ResponseWriter, r *http.Request) {
-// 	key := r.URL.Query().Get("key")
-// 	u := new(User)
-// 	if decodeJsonFromRequest(r, w, u) {
-// 		ctx := appengine.NewContext(r)
-// 		err := UserOpSave(ctx, &key, u)
-// 		if err != nil {
-// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-// 			return
-// 		} else {
-// 			encodeJsonToResponse(r, w, key)
-// 		}
-// 	}
+type HandleUserSignUpWithPasswordResult struct {
+	err error
+	id  string
+}
 
-// 	// if err := json.NewEncoder(w).Encode(v); err != nil {
-// 	//     panic(err)
-// 	// }
-// 	// if err := json.NewEncoder(w).Encode(v); err != nil {
-// 	//     panic(err)
-// 	// }
-// }
+func HandleUserSignupWithPassword(w http.ResponseWriter, r *http.Request) {
+	var login = new(UserLoginDataWithPassword)
+	if decodeJsonFromRequest(r, w, login) {
+		ctx := appengine.NewContext(r)
+		key, err := UserOpSignUpWithPassword(ctx, login)
 
-// func HandleUserLoginWithPassword(w http.ResponseWriter, r *http.Request) {
-// 	json := new(UserLoginWithPassword)
-// 	if decodeJsonFromRequest(r, w, json) {
-// 		ctx := appengine.NewContext(r)
-// 		resumeToken, err := OpUserLoginWithPassword(ctx, json)
-// 		if err != nil {
-// 			http.Error(w, err.Error(), http.StatusInternalServerError)
-// 			return
-// 		} else {
-// 			encodeJsonToResponse(r, w, resumeToken)
-// 		}
-// 	}
-// }
+		var result HandleUserSignUpWithPasswordResult
+		result.err = err
+		if err == nil {
+			result.id = key.String()
+		}
+		encodeJsonToResponse(r, w, result)
+	}
+
+	// if err := json.NewEncoder(w).Encode(v); err != nil {
+	//     panic(err)
+	// }
+	// if err := json.NewEncoder(w).Encode(v); err != nil {
+	//     panic(err)
+	// }
+}

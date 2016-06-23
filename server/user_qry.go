@@ -21,12 +21,12 @@ func QryUserPorEmail(ctx appengine.Context, email string, allowUnvefified bool, 
 	var query = datastore.
 		NewQuery("User").
 		Filter("Emails.Address=", email)
-	// if !allowUnvefified {
-	// 	query.Filter("Emails.Verified =", true)
-	// }
-	// if !allowInactives {
-	// 	query.Filter("Emails.Active =", true)
-	// }
+	if !allowUnvefified {
+		query.Filter("Emails.Verified =", true)
+	}
+	if !allowInactives {
+		query.Filter("Emails.Active =", true)
+	}
 	var cursor = query.Run(ctx)
 	var u User
 	key, err = cursor.Next(&u)

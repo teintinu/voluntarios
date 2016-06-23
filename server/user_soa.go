@@ -2,8 +2,17 @@ package cvv
 
 import (
 	"appengine/datastore"
+	"encoding/hex"
+	"errors"
+	"log"
 	"time"
 )
+
+type UserLoginDataWithPassword struct {
+	Email        string
+	PasswordHash string
+	SessionName  string
+}
 
 func UserOpSignUpWithPassword(contexto *Contexto, login *UserLoginDataWithPassword) (key *datastore.Key, err error) {
 	var u User
@@ -14,16 +23,53 @@ func UserOpSignUpWithPassword(contexto *Contexto, login *UserLoginDataWithPasswo
 			Active:   true,
 		},
 	}
-	u.Services = []UserServices{
-		UserServices{
+	u.Services = []UserService{
+		UserService{
 			Name:    "password",
 			Token:   login.PasswordHash,
 			Options: "",
-			Expires: time.Now().Add(10000),
 		},
 	}
 	key = datastore.NewKey(contexto.ctx, "User", login.Email, 0, nil)
 	_, err = datastore.Put(contexto.ctx, key, &u)
+	return
+}
+
+func UserOpLoginWithPassword(contexto *Contexto, login *UserLoginDataWithPassword) (err error) {
+	var keyUser, user, err1 = QryUserPorEmail(contexto, login.Email, false, false)
+	if err1 != nil {
+		err = err1
+		return
+	}
+
+	var servico *UserService
+	for i := range user.Services {
+		servico = &user.Services[i]
+		if servico.Name == "password" && servico.Token == login.PasswordHash {
+			err = criarSessaoDeLogin(contexto, keyUser, user, login.SessionName)
+			return
+		}
+	}
+
+	err = errors.New("invalid login")
+
+	return
+}
+
+func criarSessaoDeLogin(contexto *Contexto, keyUser *datastore.Key, user *User, sessionName string) (err error) {
+	var key = datastore.NewKey(contexto.ctx, "LoginSession", hex.EncodeToString(New128().Bytes()), 0, nil)
+	var s = LoginSession{
+		UserId:      keyUser.String(),
+		SessionName: sessionName,
+		Expires:     time.Now().Add(7),
+	}
+	_, err = datastore.Put(contexto.ctx, key, &s)
+
+	if err == nil {
+		log.Printf("nao deu erro %v ", user)
+		contexto.resume_token = key.StringID()
+		contexto.usuarioLogadoId = keyUser.String()
+	}
 	return
 }
 

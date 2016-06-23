@@ -1,12 +1,20 @@
 package cvv
 
-import "time"
+import (
+	"time"
+)
 
 type User struct {
-	Emails   []UserEmail    `datastore:,noindex`
-	Avatar   string         `datastore:,noindex`
-	Services []UserServices `datastore:,noindex`
-	roles    []string       `datastore:,noindex`
+	Emails   []UserEmail   `datastore:,noindex`
+	Avatar   string        `datastore:,noindex`
+	Services []UserService `datastore:,noindex`
+	roles    []string      `datastore:,noindex`
+}
+
+type LoginSession struct {
+	Expires     time.Time `datastore:,noindex`
+	UserId      string    `datastore:,noindex`
+	SessionName string    `datastore:,noindex`
 }
 
 type UserEmail struct {
@@ -15,14 +23,8 @@ type UserEmail struct {
 	Active   bool   `datastore:,noindex`
 }
 
-type UserServices struct {
-	Name    string    `datastore:,index`
-	Token   string    `datastore:,index`
-	Options string    `datastore:,noindex`
-	Expires time.Time `datastore:,noindex`
-}
-
-type UserLoginDataWithPassword struct {
-	Email        string
-	PasswordHash string
+type UserService struct {
+	Name    string `datastore:,index`
+	Token   string `datastore:,index`
+	Options string `datastore:,noindex`
 }

@@ -37,6 +37,13 @@ func TestHttp_UserSignUpWithPassword(t *testing.T) {
 
 		RequisicaoJSON(t, &inst, "/api/user/porId?id="+res1_json.Id, nil, res2_json)
 
+		if res2_json != nil {
+			if res2_json.Emails[0].Address != "testehttp@teste" {
+				t.Errorf("erro no userPorId Go. Desejado %v; retornado : %v", "testehttp@teste", res2_json.Emails[0].Address)
+				return
+			}
+		}
+
 		// req2, err2 := inst.NewRequest("GET", "/api/user/get?key="+*key, nil)
 		// if err2 != nil {
 		// 	t.Fatalf("Failed to create req2: %v", err2)

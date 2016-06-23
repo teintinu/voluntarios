@@ -1,12 +1,11 @@
 package cvv
 
 import (
-	"appengine"
 	"appengine/datastore"
 	"time"
 )
 
-func UserOpSignUpWithPassword(ctx appengine.Context, login *UserLoginDataWithPassword) (key *datastore.Key, err error) {
+func UserOpSignUpWithPassword(contexto *Contexto, login *UserLoginDataWithPassword) (key *datastore.Key, err error) {
 	var u User
 	u.Emails = []UserEmail{
 		UserEmail{
@@ -23,8 +22,8 @@ func UserOpSignUpWithPassword(ctx appengine.Context, login *UserLoginDataWithPas
 			Expires: time.Now().Add(10000),
 		},
 	}
-	key = datastore.NewKey(ctx, "User", login.Email, 0, nil)
-	_, err = datastore.Put(ctx, key, &u)
+	key = datastore.NewKey(contexto.ctx, "User", login.Email, 0, nil)
+	_, err = datastore.Put(contexto.ctx, key, &u)
 	return
 }
 

@@ -13,7 +13,12 @@ func RequisicaoJSON(t *testing.T, inst *aetest.Instance, url string, req_json in
 
 	var str []byte
 	var err error
-	str, err = json.Marshal(req_json)
+	if req_json == nil {
+		str = []byte{}
+		err = nil
+	} else {
+		str, err = json.Marshal(req_json)
+	}
 	if err != nil {
 		t.Fatalf("Failed to create req1: %v", err)
 	}

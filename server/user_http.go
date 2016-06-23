@@ -2,20 +2,24 @@ package cvv
 
 import (
 	"appengine"
+	"log"
 	"net/http"
 )
 
 func HandleQryUserPorId(w http.ResponseWriter, r *http.Request) {
-	ctx := appengine.NewContext(r)
-	key := r.URL.Query().Get("key")
-	v, err := QryVoluntarioPorId(ctx, key)
+	log.Printf("HandleQryUserPorId %v", r.URL.Query().Get("id"))
+	var ctx = CriarContexto(appengine.NewContext(r))
+	var key = r.URL.Query().Get("id")
+
+	var user, err = QryUserPorId(ctx, key)
+	log.Printf("HandleQryUserPorId usuario %v", user)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	stringifyJsonToResponse(r, w, v)
+	stringifyJsonToResponse(r, w, user)
 }
 
 type HandleUserSignUpWithPasswordResult struct {
@@ -24,9 +28,9 @@ type HandleUserSignUpWithPasswordResult struct {
 }
 
 func HandleUserSignupWithPassword(w http.ResponseWriter, r *http.Request) {
+	var ctx = CriarContexto(appengine.NewContext(r))
 	var login = new(UserLoginDataWithPassword)
 	if parseJsonFromRequest(r, w, login) {
-		ctx := appengine.NewContext(r)
 		key, err := UserOpSignUpWithPassword(ctx, login)
 
 		var result HandleUserSignUpWithPasswordResult

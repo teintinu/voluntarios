@@ -1,11 +1,7 @@
 package cvv
 
 import (
-	"appengine"
 	"testing"
-	// "net/http/httptest"
-	// "encoding/json"
-	// "bytes"
 )
 
 func TestInternal_UserSignUpWithPassword(t *testing.T) {
@@ -24,8 +20,8 @@ func TestInternal_UserSignAndLoginUpWithPassword(t *testing.T) {
 	}
 }
 
-func assertQryUserPorId(t *testing.T, ctx *appengine.Context, id string, expected_emails []string) *User {
-	var u, err = QryUserPorId(*ctx, id)
+func assertQryUserPorId(t *testing.T, ctx *Contexto, id string, expected_emails []string) *User {
+	var u, err = QryUserPorId(ctx, id)
 
 	if err != nil {
 		t.Fatalf("Failed to QryUserPorId: %v", err)
@@ -35,8 +31,8 @@ func assertQryUserPorId(t *testing.T, ctx *appengine.Context, id string, expecte
 	return u
 }
 
-func assertQryUserPorEmail(t *testing.T, ctx *appengine.Context, email string, expected_emails []string) *User {
-	var u3key, u3, err = QryUserPorEmail(*ctx, "testesoa@teste", false, false)
+func assertQryUserPorEmail(t *testing.T, ctx *Contexto, email string, expected_emails []string) *User {
+	var u3key, u3, err = QryUserPorEmail(ctx, "testesoa@teste", false, false)
 
 	if err != nil {
 		t.Fatalf("Failed to QryUserPorEmail: %v", err)

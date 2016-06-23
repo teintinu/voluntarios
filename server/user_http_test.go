@@ -2,6 +2,7 @@ package cvv
 
 import (
 	"appengine/aetest"
+	"log"
 	"testing"
 )
 
@@ -12,24 +13,29 @@ func TestHttp_UserSignUpWithPassword(t *testing.T) {
 	}
 	defer inst.Close()
 
-	var req_json = UserLoginDataWithPassword{
+	var req1_json = UserLoginDataWithPassword{
 		Email:        "testehttp@teste",
 		PasswordHash: "1234",
 	}
 
-	var res_json = new(HandleUserSignUpWithPasswordResult)
+	var res1_json = new(HandleUserSignUpWithPasswordResult)
 
-	RequisicaoJSON(t, &inst, "/api/user/signupWithPassword", req_json, res_json)
+	RequisicaoJSON(t, &inst, "/api/user/signupWithPassword", req1_json, res1_json)
 
-	if res_json != nil {
-		if res_json.Error != nil {
-			t.Errorf("Erro ao cadastrar usuário %s", res_json.Error)
+	if res1_json != nil {
+		if res1_json.Error != nil {
+			t.Errorf("Erro ao cadastrar usuário %s", res1_json.Error)
 			return
 		}
-		if res_json.Id == "" {
+		if res1_json.Id == "" {
 			t.Errorf("Nao foi retornado o id do usuário")
 			return
 		}
+
+		log.Printf("id = %v", res1_json.Id)
+		var res2_json = new(User)
+
+		RequisicaoJSON(t, &inst, "/api/user/porId?id="+res1_json.Id, nil, res2_json)
 
 		// req2, err2 := inst.NewRequest("GET", "/api/user/get?key="+*key, nil)
 		// if err2 != nil {

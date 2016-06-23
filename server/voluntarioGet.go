@@ -6,9 +6,9 @@ import (
 )
 
 func HandleVoluntarioGet(w http.ResponseWriter, r *http.Request) {
-	ctx := appengine.NewContext(r)
+	ctx := CriarContexto(appengine.NewContext(r))
 	key := r.URL.Query().Get("key")
-	v, err := QryVoluntarioPorId(ctx, key)
+	v, err := QryVoluntarioPorId(*ctx, key)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

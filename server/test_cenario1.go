@@ -18,7 +18,7 @@ type Cenario1 struct {
 	idUsuario string
 }
 
-func CriaCenario1(t *testing.T) (ctx *appengine.Context, cenario *Cenario1) {
+func CriaCenario1(t *testing.T) (contexto *Contexto, cenario *Cenario1) {
 	var context appengine.Context
 	var err error
 	context, err = aetest.NewContext(nil)
@@ -26,7 +26,7 @@ func CriaCenario1(t *testing.T) (ctx *appengine.Context, cenario *Cenario1) {
 		t.Fatal(err)
 	}
 
-	ctx = &context
+	contexto = CriarContexto(context)
 
 	login := UserLoginDataWithPassword{
 		Email:        "testesoa@teste",
@@ -34,10 +34,10 @@ func CriaCenario1(t *testing.T) (ctx *appengine.Context, cenario *Cenario1) {
 	}
 
 	var key *datastore.Key
-	key, err = UserOpSignUpWithPassword(*ctx, &login)
+	key, err = UserOpSignUpWithPassword(contexto, &login)
 	if err != nil {
 		t.Fatalf("Failed to UserOpSave: %v", err)
-		ctx = nil
+		contexto = nil
 	}
 
 	cenario = new(Cenario1)

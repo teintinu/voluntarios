@@ -66,12 +66,14 @@ export var application: Application = {
     return application.resumeToken() != '';
   },
   hasAnyRole(roles: RoleID[]) : boolean{
-    application.logged();
-    _roleDep.depend();
-    if (_roleObj['root']) return true;
-    if (roles && roles.length)
-      return roles.some((r) => _roleObj[r.name]);
-    return true;
+    if (application.logged()) {
+      _roleDep.depend();
+      if (_roleObj['root']) return true;
+      if (roles && roles.length)
+        return roles.some((r) => _roleObj[r.name]);
+      return true;
+    }
+    return !(roles && roles.length);
   }
 
 
@@ -117,6 +119,7 @@ export function declareApplication(opts: {
     _startup_list.forEach(utils.asap);
     _startup_list = null;
   }
+  application.startupSession = opts.startupSession;
 
   utils.asap(() => {
     application.apptitle = dependencyWithCache(() => {
@@ -137,11 +140,14 @@ export function declareApplication(opts: {
     var n_role = Object.keys(opts.roleObj);
     var n_rolesNames = Object.keys(opts.rolesNames);
     if (n_role.length != n_rolesNames.length) throw new Error('Erro interno no Roles');
+    _roleObj = {};
     n_role.forEach(function(r) {
       if (!opts.rolesNames[r]) throw new Error('Erro interno no Roles: '+ r);
       opts.rolesNames[r].name = r;
       delete opts.roleObj[r];
+      _roleObj[r] = false;
       Object.defineProperty(opts.roleObj, r, {
+        enumerable: true,
         get() {
           _roleDep.depend();
           return _roleObj[r];
@@ -152,7 +158,6 @@ export function declareApplication(opts: {
         }
       })
     });
-    _roleObj = {};
     _rolesNames = opts.rolesNames
   }
 }

@@ -1,5 +1,8 @@
 import {dependency} from '../lib/himba'
+
 import {Usuario} from './usuario'
+import {db, rolesNames} from './db'
+import {RoleID} from '../lib/himbaSchema'
 
 export interface Sessao {
 
@@ -19,10 +22,12 @@ export function criarSessaoDeLogin() {
       if (usuario && resumeToken) {
         _usuario = usuario;
         _resumeToken = resumeToken;
+        aplicarPermissoes(usuario.roles);
       }
       else {
         _usuario = null;
         _resumeToken = '';
+        aplicarPermissoes([])
       }
       _dep.changed();
     }
@@ -43,4 +48,12 @@ export function criarSessaoDeLogin() {
     }
   });
   return sessao;
+}
+
+function aplicarPermissoes(roles: number[]) {
+  debugger
+  (Object.keys(rolesNames)).forEach(function(s) {
+    var r = rolesNames[s];
+    db.role[r.name] = roles.indexOf(r.value) >= 0;
+  });
 }

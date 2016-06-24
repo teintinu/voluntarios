@@ -31,11 +31,6 @@ export var db = {
   }
 };
 
-setTimeout(function(){
-  debugger
-  db.role.coordenadorDePosto = true;
-}, 3000)
-
 export var rolesNames = {
   coordenadorDePosto: { value: 1, title: 'Coordenador de posto' } as RoleID,
   viceCoordenadorDePosto: { value: 2, title: 'Vice-coordenador de posto' } as RoleID,
@@ -47,7 +42,6 @@ export var rolesNames = {
 }
 
 export function voluntarioLogado() {
-
   return {
     RG: {
       realizadas: 8,

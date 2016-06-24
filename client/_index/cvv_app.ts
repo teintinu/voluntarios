@@ -10,7 +10,7 @@ import {qryUsuarioPorEmail, Usuario} from '../db/usuario'
 import '../atividades/home/homeActivity'
 import '../atividades/login/loginActivity'
 
-// import '../atividades/voluntarios/voluntariosActivity'
+import '../atividades/voluntarios/voluntariosActivity'
 
 export var CVV_app = declareApplication({
   title() {
@@ -31,7 +31,7 @@ export var CVV_app = declareApplication({
         title: () => 'Voluntarios',
         icon: () =>'person',
         href: () => '/voluntarios',
-        roles: [rolesNames.coordenadorDePosto, rolesNames.coordenadoDeGrupo]
+        roles: [rolesNames.voluntario]
       }
     ];
   },

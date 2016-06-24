@@ -66,7 +66,7 @@ export interface Activity {
   name: string,
   icon(): string,
   title(): string,
-  state(): any,
+  roles: RoleID[],
   actions(): Action<any>[],
   running: () => Action<any>,
   content: () => any
@@ -77,14 +77,15 @@ export interface Activity {
 }
 
 export interface Route {
-  url: string, render: (state: any, params: any[]) => void
+  url: string, render: (params: any[]) => void
 }
 
 export interface Action<PARAMS> {
-  visible(): boolean;
-  enabled(): boolean;
+  roles: RoleID[],
   icon(): string,
   title(): string,
+  visible?: () => boolean,
+  disabled?: () => string;
   execute(params: PARAMS);
 }
 

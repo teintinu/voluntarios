@@ -1,5 +1,6 @@
 
 import {dependency, defineActivity} from '../../lib/himba'
+import {rolesNames} from '../../db/db'
 
 var teste = {
   _cont: 1,
@@ -22,17 +23,13 @@ export var homeActivity = defineActivity({
   name: 'home',
   title: () => 'Home',
   icon: () => 'home',
-  //roles: [Roles.public],
-  state() {
-    return teste;
-  },
+  roles: [],
   actions() {
     return [
       {
         title: () => 'zero',
         icon: () => 'add',
-        visible: () => true,
-        enabled: () => true,
+        roles: [],
         execute() {
           teste.set(0);
         }
@@ -40,8 +37,7 @@ export var homeActivity = defineActivity({
       {
         title: () => '1000',
         icon: () => 'add',
-        visible: () => true,
-        enabled: () => true,
+        roles: [rolesNames.voluntario],
         execute() {
           teste.set(1000);
         }
@@ -49,8 +45,7 @@ export var homeActivity = defineActivity({
       {
         title: () => '10000',
         icon: () => 'add',
-        visible: () => true,
-        enabled: () => true,
+        roles: [],
         execute() {
           teste.set(10000);
         }

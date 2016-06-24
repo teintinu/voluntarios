@@ -32,7 +32,7 @@ export var application: Application = {
       var c = _currentActivity.get();
       return c && c.content() || 'NO CONTENT';
     }
-    catch(e) {
+    catch (e) {
       application.fatalError(e);
     }
   },
@@ -54,9 +54,9 @@ export var application: Application = {
   userName: null,
   resumeToken: null,
   loginWith(loginService: LoginService) {
-    loginService.login(function(err, loginInfo){
-       if (err) application.fatalError(err)
-       else application.startupSession(loginInfo)
+    loginService.login(function(err, loginInfo) {
+      if (err) application.fatalError(err)
+      else application.startupSession(loginInfo)
     });
   },
   logout() {
@@ -65,7 +65,7 @@ export var application: Application = {
   logged() {
     return application.resumeToken() != '';
   },
-  hasAnyRole(roles: RoleID[]) : boolean{
+  hasAnyRole(roles: RoleID[]): boolean {
     if (application.logged()) {
       _roleDep.depend();
       if (_roleObj['root']) return true;
@@ -125,14 +125,7 @@ export function declareApplication(opts: {
     application.apptitle = dependencyWithCache(() => {
       return document.title = opts.title();
     });
-    application.menuItems = dependencyWithCache(() =>
-      opts.menuItems()
-      .filter((mi) => application.hasAnyRole(mi.roles))
-      .map((mi) => {
-        var r = utils.clone(mi);
-        r.href = dependencyWithCache(() => expandRoutePath(mi.href()));
-        return r;
-      }));
+    application.menuItems = createReactiveMenuItems(opts.menuItems)
   });
   return application;
 
@@ -142,7 +135,7 @@ export function declareApplication(opts: {
     if (n_role.length != n_rolesNames.length) throw new Error('Erro interno no Roles');
     _roleObj = {};
     n_role.forEach(function(r) {
-      if (!opts.rolesNames[r]) throw new Error('Erro interno no Roles: '+ r);
+      if (!opts.rolesNames[r]) throw new Error('Erro interno no Roles: ' + r);
       opts.rolesNames[r].name = r;
       delete opts.roleObj[r];
       _roleObj[r] = false;
@@ -162,13 +155,31 @@ export function declareApplication(opts: {
   }
 }
 
+function createReactiveMenuItems(itemsFunc: () => MenuItem[]): () => MenuItem[] {
+  return dependencyWithCache(() =>
+      itemsFunc()
+        .filter((mi) => application.hasAnyRole(mi.roles))
+        .map((mi) => {
+          var r = utils.clone(mi);
+          r.href = dependencyWithCache(() => expandRoutePath(mi.href()));
+          return r;
+        }));
+}
+
+function createReactiveMenuActions(itemsFunc: () => Action<any>[]): () => Action<any>[] {
+  return dependencyWithCache(() =>
+    itemsFunc()
+      .filter((mi) => application.hasAnyRole(mi.roles))
+  );
+}
+
 export var registerView: (route: Route) => void;
 
 export function defineActivity(opts: {
   name: string,
   icon(): string,
   title(): string,
-  state(): any,
+  roles: RoleID[],
   actions(): Action<any>[]
 }) {
   var _content = reactiveVar<any>(null);
@@ -176,13 +187,18 @@ export function defineActivity(opts: {
     name: opts.name,
     icon: opts.icon,
     title: opts.title,
-    state: opts.state,
-    actions: opts.actions,
+    actions: () => [],
+    roles: opts.roles,
     running: null,
     content() {
       return _content.get();
     }
   }
+
+  utils.asap(function() {
+    activity.actions = createReactiveMenuActions(opts.actions);
+  });
+
   _activities.push(activity);
 
   registerView = function(route: Route) {
@@ -191,19 +207,21 @@ export function defineActivity(opts: {
     registerRoute(url, {
       title: activity.title,
       icon: activity.icon,
-      visible: () => true,
-      enabled: () => true,
+      roles: opts.roles,
       execute(params: any[]) {
-         _currentActivity.set(activity);
-         navigate(url);
-         try {
-          _content.set(render(activity.state(), params));
-         }
-         catch(e) {
+        if (application.hasAnyRole(activity.roles)) {
+          _currentActivity.set(activity);
+          navigate(url);
+          try {
+            _content.set(render(params));
+          }
+          catch (e) {
             application.fatalError(e);
-         }
+          }
+        }
+        else application.fatalError(new Error("Acesso negado"));
       }
-    })
+    });
   };
 }
 

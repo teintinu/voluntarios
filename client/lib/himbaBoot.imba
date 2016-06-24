@@ -1,5 +1,5 @@
 
-require('./third/imba.js')
+require('../../third/client/imba.js')
 import application,autorun,dependency,utils from '../lib/himba.ts'
 
 var mdl_sync

@@ -3,7 +3,7 @@ declare function require(s: string): any;
 import {Application, Activity, MenuItem, Route, Action} from './himbaSchema'
 import {navigate, expandRoutePath, registerRoute} from './himbaRouter';
 
-var Tracker = require('./third/himbaTracker.js')
+var Tracker = require('../../third/client/himbaTracker.js')
 export const autorun = Tracker.autorun as (fn: (computation?: TrackerComputation) => void) => TrackerComputation;
 
 export import utils = require('./utils.ts');

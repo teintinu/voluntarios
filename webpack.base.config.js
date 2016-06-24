@@ -32,7 +32,7 @@ var config = {
        }
 	  ],
 	},
-	resolve: {extensions: ['', '.imba', '.js', '.ts', '.css']},
+	resolve: {extensions: ['', '.imba', '.ts', '.js', '.less', '.css']},
 	resolveLoader: { root: path.join(__dirname, "node_modules") },
 	plugins: [
 	    new webpack.HotModuleReplacementPlugin(),

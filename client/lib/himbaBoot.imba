@@ -4,9 +4,9 @@ import application,autorun,dependency,utils from '../lib/himba.ts'
 
 var mdl_sync
 Imba['autorun'] = do |fn|
-  autorun do
-    var e = fn()
-    mdl_sync()
+  autorun do |comp|
+    fn(comp)
+    # mdl_sync()
 
 import configRouter from './himbaRouter.ts'
 
@@ -32,7 +32,7 @@ export def himbaBoot app
 
     $$(body).append _layout
 
-    mdl_sync
+    Imba['mdl_sync']()
 
     app.startupApplication()
 
@@ -41,7 +41,7 @@ export def himbaBoot app
 #
 var mdl_sync_tm = null
 
-mdl_sync = def mdl_sync
+Imba['mdl_sync'] = def mdl_sync
   if mdl_sync_tm
     clearTimeout mdl_sync_tm
   mdl_sync_tm = setTimeout(&, 10) do

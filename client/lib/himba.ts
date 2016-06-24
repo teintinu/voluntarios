@@ -1,6 +1,6 @@
 declare function require(s: string): any;
 
-import {Application, Activity, MenuItem, Route, Action} from './himbaSchema'
+import {Application, Activity, MenuItem, Route, Action, LoginService} from './himbaSchema'
 import {navigate, expandRoutePath, registerRoute} from './himbaRouter';
 
 var Tracker = require('../../third/client/himbaTracker.js')
@@ -45,7 +45,19 @@ export var application: Application = {
   set searchText(value: string) {
     _searchText.set(value)
   },
-  startup: null
+  startup: null,
+  userId: null,
+  userName: null,
+  resumeToken: null,
+  loginWith(loginService: LoginService) {
+
+  },
+  logout() {
+
+  },
+  logged() {
+    return !!application.resumeToken;
+  }
 
   // curr_process: null,
   // openned_processes: [],
@@ -70,7 +82,10 @@ export function declareApplication(opts: {
   title: () => string,
   menuItems: () => MenuItem[],
   fatalError: (e: Error) => void,
-  startup: () => void
+  startup: () => void,
+  userId: () => string,
+  userName: () => string,
+  resumeToken: () => string,
 }): Application {
   utils.asap(() => {
     application.apptitle = dependencyWithCache(() => {
@@ -82,6 +97,9 @@ export function declareApplication(opts: {
       return r;
     }));
     application.fatalError = opts.fatalError;
+    application.userId = opts.userId;
+    application.userName = opts.userName;
+    application.resumeToken = opts.resumeToken;
     application.startup = function() {
       utils.asap(opts.startup);
       _startup_list.forEach(utils.asap);

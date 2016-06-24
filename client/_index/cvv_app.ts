@@ -2,8 +2,10 @@
 import {reactiveVar, declareApplication} from '../lib/himba.ts'
 import {load_facebook_sdk} from '../lib/oauth/facebook_sdk.ts'
 
+import {db} from '../db/db'
+
 import '../atividades/home/homeActivity'
-import '../atividades/voluntarios/voluntariosActivity'
+// import '../atividades/voluntarios/voluntariosActivity'
 
 export var CVV_app = declareApplication({
   title() {
@@ -32,8 +34,24 @@ export var CVV_app = declareApplication({
   },
   startup() {
     load_facebook_sdk('496019580599280');
+  },
+  userId() {
+    if (db.sessao.usuario)
+      return db.sessao.usuario.id;
+    return '';
+  },
+  userName() {
+    if (db.sessao.usuario)
+      return db.sessao.usuario.nome;
+    return '';
+  },
+  resumeToken() {
+    if (db.sessao.usuario)
+      return db.sessao.resumeToken;
+    return '';
   }
 });
+
 
   // def title activity
 

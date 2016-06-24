@@ -7,7 +7,7 @@ tag appsidebar < div
       <header.demo-drawer-header>
         <img.demo-avatar src="images/cvv.svg">
         <div.demo-avatar-dropdown>
-          <span> 'fernando'
+          <span> application.userName()
           <div.mdl-layout-spacer>
           <button#accbtn.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon>
             <i.material-icons role="presentation"> 'arrow_drop_down'

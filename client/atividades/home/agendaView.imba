@@ -1,5 +1,5 @@
 
-import voluntarioLogado from '../../db/db.ts'
+import db from '../../db/db.ts'
 
 tag agendaView < section
   def render
@@ -8,7 +8,7 @@ tag agendaView < section
         <div.mdl-card__supporting-text.mdl-grid.mdl-grid--no-spacing>
           <h4.mdl-cell.mdl-cell--12-col>
             "Agenda"
-          for a in voluntarioLogado()['agenda']
+          for a in db['agenda']
             <div.mdl-grid.mdl-grid--no-spacing.mdl-cell.mdl-cell--12-col>
               <div.section__circle-container.mdl-cell.mdl-cell--2-col.mdl-cell--1-col-phone>
                 <div.section__circle-container__circle.{cor(a)}>

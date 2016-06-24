@@ -8,7 +8,7 @@ export class LoginWithPassword implements LoginService {
     this.email = email;
     this.password = hashPassword(password);
   };
-  login(callback: (err: Error, session: LoginInfo) => void) {
+  login(callback: (err: Error, loginInfo: LoginInfo) => void) {
     if (this.email == 'teste@teste' && this.password == '123')
       callback(null, {
         service: 'password',

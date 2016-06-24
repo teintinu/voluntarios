@@ -1,6 +1,6 @@
 declare function require(s: string): any;
 
-import {Application, Activity, MenuItem, Route, Action, LoginService, RoleID, RoleObj, RolesNames} from './himbaSchema'
+import {Application, Activity, MenuItem, Route, Action, LoginService, LoginInfo, RoleID, RoleObj, RolesNames} from './himbaSchema'
 import {navigate, expandRoutePath, registerRoute} from './himbaRouter';
 
 var Tracker = require('../../third/client/himbaTracker.js')
@@ -48,12 +48,16 @@ export var application: Application = {
   set searchText(value: string) {
     _searchText.set(value)
   },
-  startup: null,
+  startupApplication: null,
+  startupSession: null,
   userId: null,
   userName: null,
   resumeToken: null,
   loginWith(loginService: LoginService) {
-
+    loginService.login(function(err, loginInfo){
+       if (err) application.fatalError(err)
+       else application.startupSession(loginInfo)
+    });
   },
   logout() {
 
@@ -62,6 +66,7 @@ export var application: Application = {
     return application.resumeToken() != '';
   },
   hasAnyRole(roles: RoleID[]) : boolean{
+    application.logged();
     _roleDep.depend();
     if (_roleObj['root']) return true;
     if (roles && roles.length)
@@ -92,15 +97,28 @@ export function declareApplication(opts: {
   title: () => string,
   menuItems: () => MenuItem[],
   fatalError: (e: Error) => void,
-  startup: () => void,
+  startupApplication: () => void,
+  startupSession: (loginInfo: LoginInfo) => void,
   userId: () => string,
   userName: () => string,
   resumeToken: () => string,
   roleObj: any,
   rolesNames: any
 }): Application {
+
+  init_roles();
+
+  application.fatalError = opts.fatalError;
+  application.userId = opts.userId;
+  application.userName = opts.userName;
+  application.resumeToken = opts.resumeToken;
+  application.startupApplication = function() {
+    utils.asap(opts.startupApplication);
+    _startup_list.forEach(utils.asap);
+    _startup_list = null;
+  }
+
   utils.asap(() => {
-    init_roles();
     application.apptitle = dependencyWithCache(() => {
       return document.title = opts.title();
     });
@@ -112,15 +130,6 @@ export function declareApplication(opts: {
         r.href = dependencyWithCache(() => expandRoutePath(mi.href()));
         return r;
       }));
-    application.fatalError = opts.fatalError;
-    application.userId = opts.userId;
-    application.userName = opts.userName;
-    application.resumeToken = opts.resumeToken;
-    application.startup = function() {
-      utils.asap(opts.startup);
-      _startup_list.forEach(utils.asap);
-      _startup_list = null;
-    }
   });
   return application;
 

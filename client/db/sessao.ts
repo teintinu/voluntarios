@@ -16,8 +16,14 @@ export function criarSessaoDeLogin() {
 
   var sessao: Sessao = {
     setarDadosDeLogin(usuario: Usuario, resumeToken: string) {
-      _usuario = usuario;
-      _resumeToken = resumeToken;
+      if (usuario && resumeToken) {
+        _usuario = usuario;
+        _resumeToken = resumeToken;
+      }
+      else {
+        _usuario = null;
+        _resumeToken = '';
+      }
       _dep.changed();
     }
   } as Sessao

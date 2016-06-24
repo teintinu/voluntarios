@@ -5,7 +5,7 @@ export class LoginWithGoogle implements LoginService {
   constructor(appId) {
     this.appId = appId;
   };
-  login(callback: (err: Error, session: LoginInfo) => void) {
+  login(callback: (err: Error, loginInfo: LoginInfo) => void) {
     callback(new Error('TODO'), null);
   }
 }

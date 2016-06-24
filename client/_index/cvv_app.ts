@@ -1,10 +1,11 @@
 
 import {reactiveVar, declareApplication} from '../lib/himba.ts'
-import {RoleID} from '../lib/himbaSchema.ts'
+import {RoleID, LoginInfo} from '../lib/himbaSchema.ts'
 
 import {load_facebook_sdk} from '../lib/login/loginWithFacebook'
 
 import {db, rolesNames} from '../db/db'
+import {qryUsuarioPorEmail, Usuario} from '../db/usuario'
 
 import '../atividades/home/homeActivity'
 import '../atividades/login/loginActivity'
@@ -38,8 +39,12 @@ export var CVV_app = declareApplication({
     console.log((e as any).stack);
     alert(e.message);
   },
-  startup() {
+  startupApplication() {
     load_facebook_sdk('496019580599280');
+  },
+  startupSession(loginInfo: LoginInfo) {
+    var u = qryUsuarioPorEmail(loginInfo.email);
+    db.sessao.setarDadosDeLogin(u, loginInfo.token);
   },
   userId() {
     if (db.sessao.usuario)

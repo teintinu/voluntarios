@@ -1,4 +1,4 @@
-import {Posto} from './posto'
+//import {Posto} from './posto'
 import {Voluntario} from './voluntario'
 import {Usuario} from './usuario'
 

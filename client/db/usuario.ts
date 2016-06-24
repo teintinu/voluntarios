@@ -1,15 +1,35 @@
+
+import {db, rolesNames} from './db';
+
 export interface Usuario {
   id: string;
   nome: string;
-  funcoes: Funcao[]
+  roles: number[]
 }
 
-export enum Funcao {
-  voluntario = 1,
-  coordenadorGrupo = 10,
-  viceCoordenadorGrupo = 11,
-  secretarioPosto = 20,
-  coordenadorPosto = 30,
-  viceCoordenadorPosto = 31,
-  root = 1000,
+export function qryUsuarioPorEmail(email: string): Usuario {
+  var u: Usuario
+  if (email = 'ana@teste') {
+    u={
+      id: '1',
+      nome: 'ana',
+      roles: [rolesNames.voluntario.value]
+    }
+  }
+  else if (email = 'messias@teste') {
+    u={
+      id: '2',
+      nome: 'messias',
+      roles: [rolesNames.secretario.value]
+    }
+  }
+  else if (email = 'cristina@teste') {
+    u={
+      id: '3',
+      nome: 'cristina',
+      roles: [rolesNames.coordenadorDePosto.value]
+    }
+  }
+  return u;
 }
+

@@ -7,7 +7,7 @@ export class LoginWithFacebook implements LoginService {
   constructor(appId) {
     this.appId = appId;
   }
-  login(callback: (err: Error, session: LoginInfo) => void) {
+  login(callback: (err: Error, loginInfo: LoginInfo) => void) {
     callback(null, {
       service: 'facebook',
       token: '1234',

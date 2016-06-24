@@ -7,8 +7,9 @@ export interface Application {
   actions(): Action<any>[],
   content(): any,
   searchText: string,
-  fatalError(e: Error): void,
-  startup(): void
+  fatalError(e: Error): void
+  startupApplication(): void
+  startupSession(loginInfo: LoginInfo): void
   userId(): string;
   userName(): string;
   resumeToken(): string;
@@ -43,13 +44,14 @@ export interface RolesNames {
 }
 
 export interface LoginService {
-  login(callback: (err: Error, session: LoginInfo) => void);
+  login(callback: (err: Error, loginInfo: LoginInfo) => void);
 }
 
 
 export interface LoginInfo {
   service: string
   token: string
+  email?: string
   options?: string[]
 }
 

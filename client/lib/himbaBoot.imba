@@ -34,7 +34,7 @@ export def himbaBoot app
 
     mdl_sync
 
-    app.startup()
+    app.startupApplication()
 
     _layout
 

@@ -9,7 +9,9 @@ export interface Application {
   searchText: string,
   fatalError(e: Error): void
   startupApplication(): void
-  startupSession(loginInfo: LoginInfo): void
+  startupSession(loginInfo: LoginInfo): number[]
+  destroySession(): void
+  userActions(): Action<any>[]
   userId(): string;
   userName(): string;
   resumeToken(): string;

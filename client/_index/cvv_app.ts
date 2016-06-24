@@ -1,5 +1,5 @@
 
-import {reactiveVar, declareApplication} from '../lib/himba.ts'
+import {reactiveVar, declareApplication, anyUser, anonymous} from '../lib/himba.ts'
 import {RoleID, LoginInfo} from '../lib/himbaSchema.ts'
 
 import {load_facebook_sdk} from '../lib/login/loginWithFacebook'
@@ -35,6 +35,28 @@ export var CVV_app = declareApplication({
       }
     ];
   },
+  userActions() {
+    return [
+      {
+        title: () => 'Cadastrar usuario',
+        icon: () => 'add',
+        roles: [anonymous],
+        execute() {
+          debugger
+          alert('x')
+        }
+      },
+      {
+        title: () => 'Deslogar',
+        icon: () => '',
+        roles: [anyUser],
+        execute() {
+          debugger
+          CVV_app.logout()
+        }
+      },
+    ];
+  },
   fatalError(e) {
     console.log((e as any).stack);
     alert(e.message);
@@ -44,7 +66,10 @@ export var CVV_app = declareApplication({
   },
   startupSession(loginInfo: LoginInfo) {
     var u = qryUsuarioPorEmail(loginInfo.email);
-    db.sessao.setarDadosDeLogin(u, loginInfo.token);
+    return db.sessao.setarDadosDeLogin(u, loginInfo.token);
+  },
+  destroySession() {
+    db.sessao.setarDadosDeLogin(null, '');
   },
   userId() {
     if (db.sessao.usuario)

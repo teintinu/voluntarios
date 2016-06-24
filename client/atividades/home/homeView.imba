@@ -15,12 +15,17 @@ import agendaView from './agendaView'
 
 tag homeView < div
   def render
+    debugger
     <self.mdl-cell.mdl-cell--12-col.mdl-grid>
-      if db['role']['coordenador']
+      if db['role'].coordenadorDePosto()
         <div> "coordenador"
         <agendaView>
         <indicesParticipacaoView>
-      else if db['role']['voluntario']
+      else if db['role'].secretario
+        <div> "secretario"
+        <agendaView>
+        <indicesParticipacaoView>
+      else if db['role'].voluntario
         <div> "voluntario"
         <agendaView>
         <indicesParticipacaoView>
@@ -28,10 +33,25 @@ tag homeView < div
         <div>
           "Você não está logado"
           <button :tap='logAna'> "logar como Ana"
+          <button :tap='logCristina'> "logar como Cristina"
+          <button :tap='logMessias'> "logar como Messias"
+          <button :tap='logErro'> "logar como erro"
 
   def logAna
     debugger
     db.loginWithPassword('ana@teste', '123')
+
+  def logCristina
+    debugger
+    db.loginWithPassword('cristina@teste', '123')
+
+  def logMessias
+    debugger
+    db.loginWithPassword('messias@teste', '123')
+
+  def logErro
+    debugger
+    db.loginWithPassword('erro@teste', '123x')
 
 registerView
   url: '/'

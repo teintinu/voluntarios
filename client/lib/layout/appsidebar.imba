@@ -13,11 +13,11 @@ tag appsidebar < div
             <i.material-icons role="presentation"> 'arrow_drop_down'
             <span.visuallyhidden> 'Perfil'
           <ul.mdl-menu.mdl-menu--bottom-right.mdl-js-menu.mdl-js-ripple-effect for="accbtn">
-            <li.mdl-menu__item> 'Deslogar'
-            <li.mdl-menu__item> 'Alterar foto'
-            <li.mdl-menu__item>
-              <i.material-icons> 'add'
-                'teste ...'
+            for ua in application.userActions()
+              <li.mdl-menu__item :tap=ua['execute']>
+                if (ua.icon())
+                  <i.material-icons> ua.icon()
+                ua.title()
 
       <nav.demo-navigation.mdl-navigation.mdl-color--blue-grey-800> for item in application.menuItems
         <a.mdl-navigation__link href=item.href >

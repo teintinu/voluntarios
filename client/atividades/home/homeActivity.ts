@@ -1,5 +1,5 @@
 
-import {dependency, defineActivity} from '../../lib/himba'
+import {dependency, defineActivity, anyUser} from '../../lib/himba'
 import {rolesNames} from '../../db/db'
 
 var teste = {
@@ -45,7 +45,7 @@ export var homeActivity = defineActivity({
       {
         title: () => '10000',
         icon: () => 'add',
-        roles: [],
+        roles: [anyUser],
         execute() {
           teste.set(10000);
         }

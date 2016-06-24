@@ -15,13 +15,14 @@ import './string_extensions'
 var _activities: Activity[] = [];
 var _currentActivity = reactiveVar<Activity>(null);
 var _searchText = reactiveVar('');
-var _roleDep = dependency()
-var _roleObj: RoleObj
+var _sessionRolesDep = dependency()
+var _sessionRoles: RoleObj
 var _rolesNames: RolesNames
 
 export var application: Application = {
   apptitle: null,
   menuItems: null,
+  userActions: null,
   fatalError: null,
   navigate: navigate,
   currentActivity() {
@@ -50,30 +51,35 @@ export var application: Application = {
   },
   startupApplication: null,
   startupSession: null,
+  destroySession: null,
   userId: null,
   userName: null,
   resumeToken: null,
   loginWith(loginService: LoginService) {
     loginService.login(function(err, loginInfo) {
       if (err) application.fatalError(err)
-      else application.startupSession(loginInfo)
+      else {
+        var roles = application.startupSession(loginInfo);
+        applyRoles(roles)
+      }
     });
   },
   logout() {
-
+    application.destroySession()
+    applyRoles([]);
   },
   logged() {
     return application.resumeToken() != '';
   },
   hasAnyRole(roles: RoleID[]): boolean {
     if (application.logged()) {
-      _roleDep.depend();
-      if (_roleObj['root']) return true;
+      _sessionRolesDep.depend();
+      if (_sessionRoles['root']) return true;
       if (roles && roles.length)
-        return roles.some((r) => _roleObj[r.name]);
+        return roles.some((r) => _sessionRoles[r.name] || r == anyUser);
       return true;
     }
-    return !(roles && roles.length);
+    return !(roles && roles.length) || roles.some((r) => r == anonymous);
   }
 
 
@@ -90,6 +96,14 @@ export var application: Application = {
   // }
 };
 
+function applyRoles(roles: number[]) {
+  (Object.keys(_rolesNames)).forEach(function(s) {
+    var r = _rolesNames[s];
+    _sessionRoles[r.name] = roles.indexOf(r.value) >= 0;
+  });
+  _sessionRolesDep.changed();
+}
+
 // TODO imba compiler style
 (application as any).setSearchText = function(v) {
   this.searchText = v;
@@ -98,9 +112,11 @@ export var application: Application = {
 export function declareApplication(opts: {
   title: () => string,
   menuItems: () => MenuItem[],
+  userActions: () => Action<any>[],
   fatalError: (e: Error) => void,
   startupApplication: () => void,
-  startupSession: (loginInfo: LoginInfo) => void,
+  startupSession: (loginInfo: LoginInfo) => number[],
+  destroySession: () => void,
   userId: () => string,
   userName: () => string,
   resumeToken: () => string,
@@ -120,12 +136,14 @@ export function declareApplication(opts: {
     _startup_list = null;
   }
   application.startupSession = opts.startupSession;
+  application.destroySession = opts.destroySession;
 
   utils.asap(() => {
     application.apptitle = dependencyWithCache(() => {
       return document.title = opts.title();
     });
     application.menuItems = createReactiveMenuItems(opts.menuItems)
+    application.userActions = createReactiveMenuActions(opts.userActions)
   });
   return application;
 
@@ -133,23 +151,16 @@ export function declareApplication(opts: {
     var n_role = Object.keys(opts.roleObj);
     var n_rolesNames = Object.keys(opts.rolesNames);
     if (n_role.length != n_rolesNames.length) throw new Error('Erro interno no Roles');
-    _roleObj = {};
+    _sessionRoles = {};
     n_role.forEach(function(r) {
       if (!opts.rolesNames[r]) throw new Error('Erro interno no Roles: ' + r);
       opts.rolesNames[r].name = r;
-      delete opts.roleObj[r];
-      _roleObj[r] = false;
-      Object.defineProperty(opts.roleObj, r, {
-        enumerable: true,
-        get() {
-          _roleDep.depend();
-          return _roleObj[r];
-        },
-        set(value) {
-          _roleObj[r] = value;
-          _roleDep.changed();
-        }
-      })
+
+      _sessionRoles[r] = false;
+      opts.roleObj[r] = function() {
+        _sessionRolesDep.depend();
+        return _sessionRoles[r];
+      }
     });
     _rolesNames = opts.rolesNames
   }
@@ -279,4 +290,14 @@ export function startup(fn: () => void)
     _startup_list.push(fn);
   else
     utils.asap(fn);
+}
+
+export var anyUser: RoleID = {
+  value: -1,
+  title: null
+}
+
+export var anonymous: RoleID = {
+  value: -2,
+  title: null
 }

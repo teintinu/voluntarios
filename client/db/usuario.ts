@@ -9,21 +9,21 @@ export interface Usuario {
 
 export function qryUsuarioPorEmail(email: string): Usuario {
   var u: Usuario
-  if (email = 'ana@teste') {
+  if (email == 'ana@teste') {
     u={
       id: '1',
       nome: 'ana',
       roles: [rolesNames.voluntario.value]
     }
   }
-  else if (email = 'messias@teste') {
+  else if (email == 'messias@teste') {
     u={
       id: '2',
       nome: 'messias',
       roles: [rolesNames.secretario.value]
     }
   }
-  else if (email = 'cristina@teste') {
+  else if (email == 'cristina@teste') {
     u={
       id: '3',
       nome: 'cristina',

@@ -19,17 +19,18 @@ export function criarSessaoDeLogin() {
 
   var sessao: Sessao = {
     setarDadosDeLogin(usuario: Usuario, resumeToken: string) {
+      var roles: number[] = [];
       if (usuario && resumeToken) {
         _usuario = usuario;
         _resumeToken = resumeToken;
-        aplicarPermissoes(usuario.roles);
+        roles = usuario.roles;
       }
       else {
         _usuario = null;
         _resumeToken = '';
-        aplicarPermissoes([])
       }
       _dep.changed();
+      return roles;
     }
   } as Sessao
 
@@ -50,10 +51,3 @@ export function criarSessaoDeLogin() {
   return sessao;
 }
 
-function aplicarPermissoes(roles: number[]) {
-  debugger
-  (Object.keys(rolesNames)).forEach(function(s) {
-    var r = rolesNames[s];
-    db.role[r.name] = roles.indexOf(r.value) >= 0;
-  });
-}

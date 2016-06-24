@@ -21,20 +21,20 @@ export var db = {
     application.loginWith(new LoginWithGoogle('1234'))
   },
   role: {
-    coordenadorDePosto: false,
-    viceCoordenadorDePosto: false,
-    coordenadoDeGrupo: false,
-    viceCoordenadorDeGrupo: false,
-    secretario: false,
-    voluntario: false,
-    root: false
+    coordenadorDePosto: () => false,
+    viceCoordenadorDePosto: () =>false,
+    coordenadorDeGrupo: () => false,
+    viceCoordenadorDeGrupo: () => false,
+    secretario: () => false,
+    voluntario: () => false,
+    root: () => false
   }
 };
 
 export var rolesNames = {
   coordenadorDePosto: { value: 1, title: 'Coordenador de posto' } as RoleID,
   viceCoordenadorDePosto: { value: 2, title: 'Vice-coordenador de posto' } as RoleID,
-  coordenadoDeGrupo: { value: 3, title: 'Coordenador de grupo' } as RoleID,
+  coordenadorDeGrupo: { value: 3, title: 'Coordenador de grupo' } as RoleID,
   viceCoordenadorDeGrupo: { value: 4, title: 'Vice-coordenador de grupo' } as RoleID,
   secretario: { value: 5, title: 'Secretário de posto' } as RoleID,
   voluntario: { value: 6, title: 'Voluntário' } as RoleID,

@@ -1,52 +1,56 @@
 import {application, dependency} from '../lib/himba'
-import {LoginWithPassword} from '../lib/login/LoginWithPassword'
-import {LoginWithGoogle} from '../lib/login/LoginWithGoogle'
-import {LoginWithFacebook} from '../lib/login/LoginWithFacebook'
+import {RoleID} from '../lib/himbaSchema'
+
+import {LoginWithPassword} from '../lib/login/loginWithPassword'
+import {LoginWithGoogle} from '../lib/login/loginWithGoogle'
+import {LoginWithFacebook} from '../lib/login/loginWithFacebook'
 import {Usuario} from './usuario'
 import {Sessao, criarSessaoDeLogin} from './sessao'
 import {Agenda, criarAgenda} from './agenda'
 
-export interface DB {
-  sessao: Sessao;
-  agenda: Agenda;
-  loginWithPassword(usuario: string, senha: string);
-  loginWithFacebook();
-  loginWithGoogle();
-}
-
-export var db: DB = {
+export var db = {
   sessao: criarSessaoDeLogin(),
   agenda: criarAgenda(),
   loginWithPassword(usuario: string, senha: string) {
     application.loginWith(new LoginWithPassword(usuario, senha))
   },
   loginWithFacebook() {
-    application.loginWith(new LoginWithFacebook())
+    application.loginWith(new LoginWithFacebook('123'))
   },
   loginWithGoogle(){
-    application.loginWith(new LoginWithGoogle())
+    application.loginWith(new LoginWithGoogle('1234'))
+  },
+  role: {
+    coordenadorDePosto: false,
+    viceCoordenadorDePosto: false,
+    coordenadoDeGrupo: false,
+    viceCoordenadorDeGrupo: false,
+    secretario: false,
+    voluntario: false,
+    root: false
   }
 };
 
+setTimeout(function(){
+  debugger
+  db.role.coordenadorDePosto = true;
+}, 3000)
 
-var sessao: Sessao = {} as Sessao
-
-Object.defineProperties(sessao, {
-  usuario: {
-    get() {
-
-    }
-  }
-});
-export function login() {
-
+export var rolesNames = {
+  coordenadorDePosto: { value: 1, title: 'Coordenador de posto' } as RoleID,
+  viceCoordenadorDePosto: { value: 2, title: 'Vice-coordenador de posto' } as RoleID,
+  coordenadoDeGrupo: { value: 3, title: 'Coordenador de grupo' } as RoleID,
+  viceCoordenadorDeGrupo: { value: 4, title: 'Vice-coordenador de grupo' } as RoleID,
+  secretario: { value: 5, title: 'Secretário de posto' } as RoleID,
+  voluntario: { value: 6, title: 'Voluntário' } as RoleID,
+  root: { value: 7, title: '' } as RoleID,
 }
 
 export function voluntarioLogado() {
-  dep.depend();
+
   return {
     RG: {
-      realizadas: val,
+      realizadas: 8,
       presencas: 6,
       faltas: 1,
       atendimentos: 5
@@ -57,27 +61,6 @@ export function voluntarioLogado() {
       faltas: 1
     },
     agenda: [
-      {
-        inicio: new Date(2016, 5, 23, 15, 0, 0),
-        fim: new Date(2016, 5, 23, 19, 0, 0),
-        descricao: 'Próximo plantão: P15/5',
-        tipo: EventoTipo.Obrigatorio,
-        situacao: EventoSituacao.Vai
-      },
-      {
-        inicio: new Date(2016, 5, 26, 8, 0, 0),
-        fim: new Date(2016, 5, 26, 11, 0, 0),
-        descricao: 'RGV',
-        tipo: EventoTipo.Obrigatorio,
-        situacao: EventoSituacao.Vai
-      },
-      {
-        inicio: new Date(2016, 6, 13, 19, 0, 0),
-        fim: new Date(2016, 6, 13, 21, 0, 0),
-        descricao: 'Reunião do grupo 4',
-        tipo: EventoTipo.Obrigatorio,
-        situacao: EventoSituacao.Vai
-      }
     ]
   }
 }

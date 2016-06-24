@@ -36,5 +36,5 @@ export function criarSessaoDeLogin() {
       }
     }
   });
-
+  return sessao;
 }

@@ -22,6 +22,7 @@ export var homeActivity = defineActivity({
   name: 'home',
   title: () => 'Home',
   icon: () => 'home',
+  //roles: [Roles.public],
   state() {
     return teste;
   },

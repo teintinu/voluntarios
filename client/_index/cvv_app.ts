@@ -1,10 +1,14 @@
 
 import {reactiveVar, declareApplication} from '../lib/himba.ts'
-import {load_facebook_sdk} from '../lib/oauth/facebook_sdk.ts'
+import {RoleID} from '../lib/himbaSchema.ts'
 
-import {db} from '../db/db'
+import {load_facebook_sdk} from '../lib/login/loginWithFacebook'
+
+import {db, rolesNames} from '../db/db'
 
 import '../atividades/home/homeActivity'
+import '../atividades/login/loginActivity'
+
 // import '../atividades/voluntarios/voluntariosActivity'
 
 export var CVV_app = declareApplication({
@@ -19,12 +23,14 @@ export var CVV_app = declareApplication({
       {
         title: () => 'Home',
         icon: () => 'home',
-        href: () => '/'
+        href: () => '/',
+        roles: []
       },
       {
         title: () => 'Voluntarios',
         icon: () =>'person',
-        href: () => '/voluntarios'
+        href: () => '/voluntarios',
+        roles: [rolesNames.coordenadorDePosto, rolesNames.coordenadoDeGrupo]
       }
     ];
   },
@@ -49,7 +55,9 @@ export var CVV_app = declareApplication({
     if (db.sessao.usuario)
       return db.sessao.resumeToken;
     return '';
-  }
+  },
+  roleObj: db.role,
+  rolesNames: rolesNames
 });
 
 

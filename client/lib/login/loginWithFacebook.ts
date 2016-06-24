@@ -1,10 +1,27 @@
 import {dependency} from '../himba';
+import {LoginService, LoginInfo} from '../himbaSchema';
+
+
+export class LoginWithFacebook implements LoginService {
+  appId: string
+  constructor(appId) {
+    this.appId = appId;
+  }
+  login(callback: (err: Error, session: LoginInfo) => void) {
+    callback(null, {
+      service: 'facebook',
+      token: '1234',
+      options: ['5678']
+    });
+  }
+}
+
 
 declare var FB: {
   init(opts: { appId: string, cookie: boolean, xfbml: boolean, version: string });
-  api(url: string, callback: (response)=>void);
-  login(callback: (response)=>void);
-  getLoginStatus(callback: (response)=>void);
+  api(url: string, callback: (response) => void);
+  login(callback: (response) => void);
+  getLoginStatus(callback: (response) => void);
 }
 
 export interface StatusFacebook {

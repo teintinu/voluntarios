@@ -1,6 +1,6 @@
 declare function require(s: string): any;
 
-import {Application, Activity, MenuItem, Route, Action, LoginService} from './himbaSchema'
+import {Application, Activity, MenuItem, Route, Action, LoginService, RoleID, RoleObj, RolesNames} from './himbaSchema'
 import {navigate, expandRoutePath, registerRoute} from './himbaRouter';
 
 var Tracker = require('../../third/client/himbaTracker.js')
@@ -15,6 +15,9 @@ import './string_extensions'
 var _activities: Activity[] = [];
 var _currentActivity = reactiveVar<Activity>(null);
 var _searchText = reactiveVar('');
+var _roleDep = dependency()
+var _roleObj: RoleObj
+var _rolesNames: RolesNames
 
 export var application: Application = {
   apptitle: null,
@@ -56,8 +59,16 @@ export var application: Application = {
 
   },
   logged() {
-    return !!application.resumeToken;
+    return application.resumeToken() != '';
+  },
+  hasAnyRole(roles: RoleID[]) : boolean{
+    _roleDep.depend();
+    if (_roleObj['root']) return true;
+    if (roles && roles.length)
+      return roles.some((r) => _roleObj[r.name]);
+    return true;
   }
+
 
   // curr_process: null,
   // openned_processes: [],
@@ -77,7 +88,6 @@ export var application: Application = {
   this.searchText = v;
 };
 
-
 export function declareApplication(opts: {
   title: () => string,
   menuItems: () => MenuItem[],
@@ -86,16 +96,22 @@ export function declareApplication(opts: {
   userId: () => string,
   userName: () => string,
   resumeToken: () => string,
+  roleObj: any,
+  rolesNames: any
 }): Application {
   utils.asap(() => {
+    init_roles();
     application.apptitle = dependencyWithCache(() => {
       return document.title = opts.title();
     });
-    application.menuItems = dependencyWithCache(() => opts.menuItems().map((mi) => {
-      var r = utils.clone(mi);
-      r.href = dependencyWithCache(() => expandRoutePath(mi.href()));
-      return r;
-    }));
+    application.menuItems = dependencyWithCache(() =>
+      opts.menuItems()
+      .filter((mi) => application.hasAnyRole(mi.roles))
+      .map((mi) => {
+        var r = utils.clone(mi);
+        r.href = dependencyWithCache(() => expandRoutePath(mi.href()));
+        return r;
+      }));
     application.fatalError = opts.fatalError;
     application.userId = opts.userId;
     application.userName = opts.userName;
@@ -107,6 +123,29 @@ export function declareApplication(opts: {
     }
   });
   return application;
+
+  function init_roles() {
+    var n_role = Object.keys(opts.roleObj);
+    var n_rolesNames = Object.keys(opts.rolesNames);
+    if (n_role.length != n_rolesNames.length) throw new Error('Erro interno no Roles');
+    n_role.forEach(function(r) {
+      if (!opts.rolesNames[r]) throw new Error('Erro interno no Roles: '+ r);
+      opts.rolesNames[r].name = r;
+      delete opts.roleObj[r];
+      Object.defineProperty(opts.roleObj, r, {
+        get() {
+          _roleDep.depend();
+          return _roleObj[r];
+        },
+        set(value) {
+          _roleObj[r] = value;
+          _roleDep.changed();
+        }
+      })
+    });
+    _roleObj = {};
+    _rolesNames = opts.rolesNames
+  }
 }
 
 export var registerView: (route: Route) => void;

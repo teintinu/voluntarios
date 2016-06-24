@@ -6,6 +6,7 @@ export function criarAgenda() {
   a.adicionarEvento = function() {
 
   }
+  return a;
 }
 
 export interface AgendaItem {

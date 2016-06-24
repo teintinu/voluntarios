@@ -14,7 +14,9 @@ export interface Application {
   resumeToken(): string;
   loginWith(loginService: LoginService);
   logout(),
-  logged(): boolean
+  logged(): boolean,
+  hasAnyRole(roles: RoleID[]): boolean
+  //roles(): Roles
   // curr_activity: CurrentActivity,
   // openned_activity: ActivityInfo[],
   // error: string,
@@ -26,21 +28,36 @@ export interface Application {
   // session: AppSession
 }
 
+export interface RoleID {
+  value: number,
+  name?: string,
+  title: string
+}
+
+export interface RoleObj {
+  [index: string]: boolean
+}
+
+export interface RolesNames {
+  [index: string]: RoleID
+}
+
 export interface LoginService {
   login(callback: (err: Error, session: LoginInfo) => void);
-  logout(session: LoginInfo);
 }
+
 
 export interface LoginInfo {
   service: string
   token: string
-  options: string[]
+  options?: string[]
 }
 
 export interface MenuItem {
   icon: () => string,
   title: () => string,
-  href: () => string
+  href: () => string,
+  roles: RoleID[]
 }
 
 export interface Activity {

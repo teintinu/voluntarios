@@ -1,5 +1,5 @@
 
-import db from '../../db/db.ts'
+import db from '../../../db/db.ts'
 
 tag agendaView < section
   def render

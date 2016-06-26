@@ -17,12 +17,12 @@ tag appsidebar < div
               <li.mdl-menu__item :tap=ua['execute']>
                 if (ua.icon())
                   <i.material-icons> ua.icon()
-                ua.title()
+                <span> ua.title()
 
       <nav.demo-navigation.mdl-navigation.mdl-color--blue-grey-800> for item in application.menuItems
         <a.mdl-navigation__link href=item.href >
           <i.mdl-color-text--blue-grey-400.material-icons role="presentation"> item.icon
-          item.title
+          <span> item.title
       <div.mdl-layout-spacer>
       <a.mdl-navigation__link href="">
         <i.mdl-color-text--blue-grey-400.material-icons role="presentation"> 'help_outline'

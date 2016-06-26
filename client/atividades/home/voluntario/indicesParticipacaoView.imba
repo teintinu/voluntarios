@@ -1,4 +1,4 @@
-import voluntarioLogado from '../../db/db.ts'
+import voluntarioLogado from '../../../db/db.ts'
 
 var corRG='#E64A19'
 var corAtendimento = '#2E7D32'

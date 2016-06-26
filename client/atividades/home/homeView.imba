@@ -2,16 +2,15 @@
 import registerView,dependency,role from '../../lib/himba'
 import chartDonut from '../../lib/charts/chartDonut'
 import db from '../../db/db.ts'
-import db from '../../db/db.ts'
 
 var dep = dependency()
 var count=0
 var icons=['star', 'alarm', 'add', 'search', 'home', 'person']
 
 require './home.less'
-
-import indicesParticipacaoView from './indicesParticipacaoView.imba'
-import agendaView from './agendaView'
+import anonimoView from './anonimo/aninimoView'
+import indicesParticipacaoView from './voluntario/indicesParticipacaoView'
+import agendaView from './voluntario/agendaView'
 
 tag homeView < div
   def render
@@ -30,28 +29,7 @@ tag homeView < div
         <agendaView>
         <indicesParticipacaoView>
       else
-        <div>
-          "Você não está logado"
-          <button :tap='logAna'> "logar como Ana"
-          <button :tap='logCristina'> "logar como Cristina"
-          <button :tap='logMessias'> "logar como Messias"
-          <button :tap='logErro'> "logar como erro"
-
-  def logAna
-    debugger
-    db.loginWithPassword('ana@teste', '123')
-
-  def logCristina
-    debugger
-    db.loginWithPassword('cristina@teste', '123')
-
-  def logMessias
-    debugger
-    db.loginWithPassword('messias@teste', '123')
-
-  def logErro
-    debugger
-    db.loginWithPassword('erro@teste', '123x')
+        <anonimoView>
 
 registerView
   url: '/'

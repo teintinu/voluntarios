@@ -10,7 +10,7 @@ export var loginActivity = defineActivity({
     return [
       {
         title: () => 'Esqueci senha',
-        icon: () => 'add',
+        icon: () => 'help-circle',
         roles: [],
         execute() {
 

@@ -3,8 +3,15 @@ import {db, rolesNames} from './db';
 
 export interface Usuario {
   id: string;
+  emails: {
+    endereco: string,
+    validado: boolean,
+    ativo: boolean
+  },
+  avatar: string;
+  servicos: string[];
   nome: string;
-  roles: number[]
+  roles: number[];
 }
 
 export function qryUsuarioPorEmail(email: string): Usuario {
@@ -13,6 +20,13 @@ export function qryUsuarioPorEmail(email: string): Usuario {
     u={
       id: '1',
       nome: 'ana',
+      avatar: null,
+      servicos: ['password'],
+      emails: {
+        endereco: 'ana@teste',
+        validado: true,
+        ativo: true
+      },
       roles: [rolesNames.voluntario.value]
     }
   }
@@ -20,6 +34,13 @@ export function qryUsuarioPorEmail(email: string): Usuario {
     u={
       id: '2',
       nome: 'messias',
+      avatar: null,
+      servicos: ['password'],
+      emails: {
+        endereco: 'messias@teste',
+        validado: true,
+        ativo: true
+      },
       roles: [rolesNames.secretario.value]
     }
   }
@@ -27,6 +48,13 @@ export function qryUsuarioPorEmail(email: string): Usuario {
     u={
       id: '3',
       nome: 'cristina',
+      avatar: null,
+      servicos: ['password'],
+      emails: {
+        endereco: 'cristina@teste',
+        validado: true,
+        ativo: true
+      },
       roles: [rolesNames.coordenadorDePosto.value]
     }
   }

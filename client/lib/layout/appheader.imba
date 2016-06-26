@@ -18,7 +18,7 @@ tag appheader < header
           <button.mdl-button.mdl-js-button.mdl-js-ripple-effect.mdl-button--icon id="hdrbtn">
             <i.material-icons> 'more_vert'
           <ul.mdl-menu.mdl-js-menu.mdl-js-ripple-effect.mdl-menu--bottom-right for="hdrbtn"> for action in application.actions
-#            if item['visible']
             <li.mdl-menu__item :tap=action['execute']> action.title
+
   def searchKeyUp
     application.searchText = @search.value

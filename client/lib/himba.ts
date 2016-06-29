@@ -25,6 +25,7 @@ export var application: Application = {
   menuItems: null,
   userActions: null,
   fatalError: null,
+  roles : null,
   navigate: navigate,
   currentActivity() {
     return _currentActivity.get()
@@ -138,6 +139,10 @@ export function declareApplication(opts: {
   }
   application.startupSession = opts.startupSession;
   application.destroySession = opts.destroySession;
+  application.roles =  function() {
+    debugger
+    return Object.keys(opts.rolesNames).map((rn) => opts.rolesNames[rn])
+  }
 
   utils.asap(() => {
     application.apptitle = dependencyWithCache(() => {

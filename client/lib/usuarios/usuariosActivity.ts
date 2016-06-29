@@ -13,15 +13,4 @@ export var usuariosActivity = defineActivity({
 });
 
 import './usuariosView.imba'
-
-export var usuarioFormAddActivity = defineActivity({
-  name: 'usuarioFormAdd',
-  title: () => 'Formula de cadastro de usuário',
-  icon: () => 'person',
-  roles: [],
-  actions() {
-    return [];
-  }
-});
-
-import './usuarioFormAdd.imba'
+import './usuarioForm.imba'

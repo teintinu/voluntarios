@@ -6,7 +6,7 @@ tag usuariosView
   def render
     <self>
       <div> "teste 2"
-      <a href="#/usuarioFormAdd"> "Cadastrar usuário"
+      <a href="#/usuarioForm"> "Cadastrar usuário"
 
   def lista_usuarios
     var filtro = application['searchText']

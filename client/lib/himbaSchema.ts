@@ -19,7 +19,7 @@ export interface Application {
   logout(),
   logged(): boolean,
   hasAnyRole(roles: RoleID[]): boolean
-  //roles(): Roles
+  roles(): RoleID[]
   // curr_activity: CurrentActivity,
   // openned_activity: ActivityInfo[],
   // error: string,

@@ -5,7 +5,7 @@ export interface Usuario {
   id: string;
   emails: {
     endereco: string,
-    validado: boolean,
+    confirmado: boolean,
     ativo: boolean
   },
   avatar: string;
@@ -24,7 +24,7 @@ export function qryUsuarioPorEmail(email: string): Usuario {
       servicos: ['password'],
       emails: {
         endereco: 'ana@teste',
-        validado: true,
+        confirmado: true,
         ativo: true
       },
       roles: [rolesNames.voluntario.value]
@@ -38,7 +38,7 @@ export function qryUsuarioPorEmail(email: string): Usuario {
       servicos: ['password'],
       emails: {
         endereco: 'messias@teste',
-        validado: true,
+        confirmado: true,
         ativo: true
       },
       roles: [rolesNames.secretario.value]
@@ -52,7 +52,7 @@ export function qryUsuarioPorEmail(email: string): Usuario {
       servicos: ['password'],
       emails: {
         endereco: 'cristina@teste',
-        validado: true,
+        confirmado: true,
         ativo: true
       },
       roles: [rolesNames.coordenadorDePosto.value]

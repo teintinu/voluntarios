@@ -1,1 +1,11 @@
+.cadastroDeUsuario-inputs{
+  width: 100%;
+}
 
+.cadastroDeUsuario-emailConfirmado{
+  color: green;
+}
+
+.cadastroDeUsuario-emailNaoConfirmado{
+  color: red;
+}

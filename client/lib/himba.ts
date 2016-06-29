@@ -11,6 +11,7 @@ import './array_extensions'
 import './date_extensions'
 import './number_extensions'
 import './string_extensions'
+import './regexp_extensions'
 
 var _activities: Activity[] = [];
 var _currentActivity = reactiveVar<Activity>(null);

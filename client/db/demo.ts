@@ -1,5 +1,4 @@
 //import {Posto} from './posto'
-import {Voluntario} from './voluntario'
 import {Usuario} from './usuario'
 
 // import {Agenda} from './usuario'
@@ -28,7 +27,7 @@ import {Usuario} from './usuario'
 //       }
 
 
-export function lista_voluntarios(): Voluntario[] {
+export function lista_voluntarios(): {usuario: Usuario}[] {
   return lista_usuarios().map( (u) => {
     return {
        usuario: u

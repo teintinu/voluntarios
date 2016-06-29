@@ -36,8 +36,8 @@ String.prototype.l_contains = function (s) {
 
 String.prototype.l_relevance = function (s) {
   if (this && s) {
-    var s1 = this && this.removeAccents().toLowerCase();
-    var s2 = s && s.removeAccents().toLowerCase().trim();
+    var s1 = this.removeAccents().toLowerCase();
+    var s2 = s.removeAccents().toLowerCase().trim();
     var i = s1.indexOf(s2);
     if (i == -1) return -1;
     if (i == 0) return 3;

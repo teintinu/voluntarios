@@ -1,0 +1,56 @@
+.login-inputs{
+  text-align: center;
+  width: 100%;
+}
+
+.login-btn-logar{
+  color: white !important;
+}
+
+.login-btn-logar-style{
+  text-align: left;
+}
+
+.login-btn-esquecisenha-style{
+  text-align: right;
+}
+
+.login-tittle-color{
+  color: #37474f;
+}
+
+.login-logo{
+  background-color: #37474f !important;
+}
+
+.login-btn-facebook{
+  background-color: #1c84c6;
+  border-color: #1c84c6;
+  color: #FFFFFF !important;
+  border-radius: 3px 0px 0px 3px;
+}
+
+.login-btn-facebook:hover{
+  background-color: #1c84c6;
+  border-color: #1c84c6;
+  color: #FFFFFF;
+}
+
+.login-btn-google{
+  background-color: #ed5565;
+  border-color: #ed5565;
+  color: #FFFFFF !important;
+  border-radius: 0px 0px 0px 0px;
+}
+
+.login-btn-google:hover{
+  background-color: #ed5565;
+  border-color: #ed5565;
+  color: #FFFFFF;
+}
+
+.login-btn-cadastrar{
+  box-shadow: none;
+  color: #37474f;
+  border-radius: 0px 3px 3px 0px;
+}

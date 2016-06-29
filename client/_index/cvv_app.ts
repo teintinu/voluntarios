@@ -12,6 +12,8 @@ import '../atividades/login/loginActivity'
 
 import '../atividades/voluntarios/voluntariosActivity'
 
+import '../lib/usuarios/usuariosActivity'
+
 export var CVV_app = declareApplication({
   title() {
     var c = CVV_app.currentActivity();
@@ -32,6 +34,12 @@ export var CVV_app = declareApplication({
         icon: () =>'person',
         href: () => '/voluntarios',
         roles: [rolesNames.voluntario]
+      },
+      {
+        title: () => 'Usuário',
+        icon: () =>'person',
+        href: () => '/usuarios',
+        roles: []
       }
     ];
   },

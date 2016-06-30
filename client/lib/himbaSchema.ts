@@ -5,6 +5,7 @@ export interface Application {
   menuItems(): MenuItem[],
   currentActivity(): Activity,
   actions(): Action<any>[],
+  actionsBar(): ActionBar<any>[],
   content(): any,
   searchText: string,
   fatalError(e: Error): void
@@ -70,6 +71,7 @@ export interface Activity {
   title(): string,
   roles: RoleID[],
   actions(): Action<any>[],
+  actionsBar?(): ActionBar<any>[],
   running: () => Action<any>,
   content: () => any
   // setStep(s: string): string;
@@ -86,6 +88,19 @@ export interface Action<PARAMS> {
   roles: RoleID[],
   icon(): string,
   title(): string,
+  kind?(): string,
+  fab?: () => boolean,
+  visible?: () => boolean,
+  disabled?: () => string;
+  execute(params: PARAMS);
+}
+
+export interface ActionBar<PARAMS> {
+  roles: RoleID[],
+  icon(): string,
+  title(): string,
+  hint(): string,
+  kind(): string,
   visible?: () => boolean,
   disabled?: () => string;
   execute(params: PARAMS);

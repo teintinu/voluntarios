@@ -46,7 +46,6 @@ tag usuarioForm
                       <span.mdl-checkbox__label> r["title"]
 
   def tem_permissao r
-    debugger
     usuario['roles'].some do | ru |
       ru == r['value']
 

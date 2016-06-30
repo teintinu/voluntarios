@@ -8,7 +8,16 @@ export var usuariosActivity = defineActivity({
   icon: () => 'person',
   roles: [],
   actions() {
-    return [];
+    return [
+      {
+        title: () => 'Esqueci senha',
+        icon: () => 'help-circle',
+        roles: [],
+        kind: () => "primary",
+        fab: () => true,
+        execute() {}
+      },
+    ];
   }
 });
 

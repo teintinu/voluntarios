@@ -9,9 +9,7 @@ import {qryUsuarioPorEmail, Usuario} from '../db/usuario'
 
 import '../atividades/home/homeActivity'
 import '../atividades/login/loginActivity'
-
 import '../atividades/voluntarios/voluntariosActivity'
-
 import '../lib/usuarios/usuariosActivity'
 
 export var CVV_app = declareApplication({

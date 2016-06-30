@@ -45,6 +45,12 @@ export var application: Application = {
       return c.actions();
     return [];
   },
+  actionsBar() {
+    var c = _currentActivity.get();
+    if (c)
+      return c.actionsBar();
+    return [];
+  },
   get searchText(): string {
     return _searchText.get()
   },
